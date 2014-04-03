@@ -20,6 +20,10 @@ typedef GLShader = Int;
 	#include <OpenGLES/ES2/gl.h>
 	#include <OpenGLES/ES2/glext.h>
 	#endif
+
+	#ifdef HX_MACOS
+	#include <OpenGL/gl.h>
+	#endif
 ')
 
 @:cppFileCode('		
