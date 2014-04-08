@@ -20,9 +20,9 @@ extern class GL {
 
     public static function bindBuffer(target:Int, buffer:GLBuffer):Void ;
 
-    public static function bufferData(target:Int, offsetInData:Int, lengthInData:Int, data:Data, usage:Int):Void;
+    public static function bufferData(target:Int, data:Data, usage:Int):Void;
 
-    public static function bufferSubData(target:Int, offsetInBuffer:Int, offsetInData:Int, lengthInData:Int, data:Data):Void;
+    public static function bufferSubData(target:Int, offsetInBuffer:Int, data:Data):Void;
 
     public static function clearColor(red:Float, green:Float, blue:Float, alpha:Float):Void;
 
@@ -60,7 +60,7 @@ extern class GL {
 
     public static function uniform1i(location:GLUniformLocation, x:Int):Void;
 
-    public static function uniformMatrix4fv(location:GLUniformLocation, count:Int, transpose:Bool, offsetInData:Int, v:Data):Void;
+    public static function uniformMatrix4fv(location:GLUniformLocation, count:Int, transpose:Bool, v:Data):Void;
 
     public static function vertexAttribPointer(indx:Int, size:Int, type:Int, normalized:Bool, stride:Int, offset:Int):Void;
 
