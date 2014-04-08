@@ -58,14 +58,14 @@ class GL {
     public static function bindBuffer(target:Int, buffer:GLBuffer):Void {}
 
 	@:functionCode('
-    	glBufferData(target, lengthInData, (uint8_t*)data->_dataPointer + offsetInData, usage);
+    	glBufferData(target, data->_pointer.offsetLength, (uint8_t*)data->_pointer.ptr.get() + data->_pointer.offset, usage);
 	') 
-    public static function bufferData(target:Int, offsetInData:Int, lengthInData:Int, data:Data, usage:Int):Void {}
+    public static function bufferData(target:Int, data:Data, usage:Int):Void {}
 
 	@:functionCode('
-    	glBufferSubData(target, offsetInBuffer, lengthInData, (uint8_t*)data->_dataPointer + offsetInData);
+    	glBufferSubData(target, offsetInBuffer, data->_pointer.offsetLength, (uint8_t*)data->_pointer.ptr.get() + data->_pointer.offset);
 	') 
-    public static function bufferSubData(target:Int, offsetInBuffer:Int, offsetInData:Int, lengthInData:Int, data:Data):Void {}
+    public static function bufferSubData(target:Int, offsetInBuffer:Int, data:Data):Void {}
     
 	@:functionCode('
     	glClearColor(red, green, blue, alpha);
@@ -207,9 +207,9 @@ class GL {
     public static function uniform1i(location:GLUniformLocation, x:Int):Void {}
 
 	@:functionCode('
-    	glUniformMatrix4fv(location, count, transpose, (float*)((uint8_t*)data->_dataPointer + offsetInData));
+    	glUniformMatrix4fv(location, count, transpose, (float*)((uint8_t*)data->_pointer.ptr.get() + data->_pointer.offset));
 	') 
-    public static function uniformMatrix4fv(location:GLUniformLocation, count:Int, transpose:Bool, offsetInData:Int, data:Data):Void {}
+    public static function uniformMatrix4fv(location:GLUniformLocation, count:Int, transpose:Bool, data:Data):Void {}
 
 	@:functionCode('
     	glVertexAttribPointer(indx, size, type, normalized, stride, (void*)offset);
