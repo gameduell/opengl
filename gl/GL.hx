@@ -37,20 +37,18 @@ class GL {
     	context.bindBuffer(target, buffer);
     }
 
-    public static function bufferData(target:Int, offsetInData:Int, lengthInData:Int, data:Data, usage:Int):Void 
+    public static function bufferData(target:Int, data:Data, usage:Int):Void 
     {
-    	context.bufferData(target, data.uint8Array.subarray(offsetInData, offsetInData + lengthInData), usage);
+    	context.bufferData(target, data.uint8Array.subarray(data.offset, data.offset + data.offsetLength), usage);
     }
 
     public static function bufferSubData(	target:Int, 
     										offsetInBuffer:Int, 
-    										offsetInData:Int, 
-    										lengthInData:Int, 
     										data:Data):Void 
     {
     	context.bufferSubData(	target, 
     							offsetInBuffer, 
-    							data.uint8Array.subarray(offsetInData, offsetInData + lengthInData));
+    							data.uint8Array.subarray(data.offset, data.offset + data.offsetLength));
     }
     
     public static function clearColor(red:Float, green:Float, blue:Float, alpha:Float):Void
@@ -146,12 +144,11 @@ class GL {
     public static function uniformMatrix4fv(location:GLUniformLocation, 
     										count:Int, 
     										transpose:Bool, 
-    										offsetInData:Int, 
     										data:Data):Void
     {
 		context.uniformMatrix4fv(location, 
 								 transpose, 
-								 data.float32Array.subarray(offsetInData, offsetInData + 4*4*4 * count));
+								 data.float32Array.subarray(data.offset, data.offset + 4*4*4 * count));
     }
 
     public static function vertexAttribPointer( indx:Int, 
