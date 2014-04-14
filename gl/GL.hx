@@ -9,7 +9,19 @@ typedef GLProgram = Int;
 typedef GLUniformLocation = Int;
 typedef GLShader = Int;
 
+@:buildXml('
+
+	<files id="haxe">
+
+		<include name="${haxelib:types_cpp}/native.xml" />
+
+	</files>
+
+')
+
 @:headerCode('
+	#include <types/NativeData.h>
+	
 	#include <cstdlib>
 	#ifdef ANDROID
 	#include <GLES2/gl2.h>
@@ -58,12 +70,12 @@ class GL {
     public static function bindBuffer(target:Int, buffer:GLBuffer):Void {}
 
 	@:functionCode('
-    	glBufferData(target, data->_pointer.offsetLength, (uint8_t*)data->_pointer.ptr.get() + data->_pointer.offset, usage);
+    	glBufferData(target, data->_nativeData->offsetLength, (uint8_t*)data->_nativeData->ptr + data->_nativeData->offset, usage);
 	') 
     public static function bufferData(target:Int, data:Data, usage:Int):Void {}
 
 	@:functionCode('
-    	glBufferSubData(target, offsetInBuffer, data->_pointer.offsetLength, (uint8_t*)data->_pointer.ptr.get() + data->_pointer.offset);
+    	glBufferSubData(target, offsetInBuffer, data->_nativeData->offsetLength, (uint8_t*)data->_nativeData->ptr + data->_nativeData->offset);
 	') 
     public static function bufferSubData(target:Int, offsetInBuffer:Int, data:Data):Void {}
     
@@ -207,7 +219,7 @@ class GL {
     public static function uniform1i(location:GLUniformLocation, x:Int):Void {}
 
 	@:functionCode('
-    	glUniformMatrix4fv(location, count, transpose, (float*)((uint8_t*)data->_pointer.ptr.get() + data->_pointer.offset));
+    	glUniformMatrix4fv(location, count, transpose, (float*)((uint8_t*)data->_nativeData->ptr + data->_nativeData->offset));
 	') 
     public static function uniformMatrix4fv(location:GLUniformLocation, count:Int, transpose:Bool, data:Data):Void {}
 
