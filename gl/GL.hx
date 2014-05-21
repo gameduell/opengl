@@ -8,6 +8,7 @@ typedef GLBuffer = Int;
 typedef GLProgram = Int;
 typedef GLUniformLocation = Int;
 typedef GLShader = Int;
+typedef GLTexture = Int;
 
 @:buildXml('
 
@@ -52,6 +53,12 @@ class GL {
     public static var nullBuffer = 0;
     public static var nullProgram = 0;
     public static var nullUniformLocation = -1;
+    public static var nullTexture = -1;
+
+	@:functionCode('
+    	glActiveTexture(position);
+	') 
+    public static function activeTexture(position:Int):Void {}
 
 	@:functionCode('
     	glAttachShader( program, 
@@ -68,6 +75,11 @@ class GL {
     	glBindBuffer(target, buffer);
 	') 
     public static function bindBuffer(target:Int, buffer:GLBuffer):Void {}
+
+	@:functionCode('
+    	glBindTexture(target, texture);
+	') 
+    public static function bindTexture(target:Int, texture:GLTexture):Void {}
 
 	@:functionCode('
     	glBufferData(target, data->_nativeData->offsetLength, (uint8_t*)data->_nativeData->ptr + data->_nativeData->offset, usage);
@@ -113,6 +125,13 @@ class GL {
     public static function createShader(type:Int):GLShader { return 0; }
 
 	@:functionCode('
+		GLuint textureID;
+    	glGenTextures(1, &textureID);
+    	return textureID;
+	') 
+    public static function createTexture():GLTexture { return 0; }
+
+	@:functionCode('
     	glDeleteProgram(program);
 	') 
     public static function deleteProgram(program:GLProgram):Void {}
@@ -126,6 +145,11 @@ class GL {
     	glDetachShader(program, shader);
 	') 
     public static function detachShader(program:GLProgram, shader:GLShader):Void {}
+
+	@:functionCode('
+    	glGenerateMipmap(target);
+	') 
+    public static function generateMipmap(target : Int) {}
 
 	@:functionCode('
 		GLint logLength;
@@ -198,6 +222,11 @@ class GL {
     public static function getUniformLocation(program:GLProgram, name:String):GLUniformLocation { return 0;}
 
 	@:functionCode('
+		glHint(target, mode);
+	') 
+    public static function hint(target : Int, mode : Int) : Void {}
+
+	@:functionCode('
     	glLinkProgram(program);
 	') 
     public static function linkProgram(program:GLProgram):Void {}
@@ -207,6 +236,16 @@ class GL {
     	glShaderSource(shader, 1, &sourceC, 0);
 	') 
     public static function shaderSource(shader:GLShader, source:String):Void {}
+
+	@:functionCode('
+		glTexImage2D(target, level, internalFormat, width, height, border, format, type, pixels->_nativeData->ptr + pixels->_nativeData->offset);
+	') 
+    public static function texImage2D(target : Int, level : Int, internalFormat : Int, width : Int, height : Int, border : Int, format : Int, type : Int, pixels : Data) {}
+
+	@:functionCode('
+    	glTexParameteri(textureType, parameterName, parameterValue);
+	') 
+    public static function texParameteri(textureType : Int, parameterName : Int, parameterValue : Float) : Void{};
 
 	@:functionCode('
     	glUseProgram(program);
