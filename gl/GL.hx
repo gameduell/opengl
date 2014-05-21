@@ -6,6 +6,7 @@ extern class GLShader {}
 extern class GLBuffer {}
 extern class GLProgram {}
 extern class GLUniformLocation {}
+extern class GLTexture {}
 
 extern class GL {
 
@@ -13,6 +14,9 @@ extern class GL {
     public static var nullBuffer : GLBuffer;
     public static var nullProgram : GLProgram;
     public static var nullUniformLocation : GLUniformLocation;
+    public static var nullTexture : GLTexture;
+
+    public static function activeTexture(position : Int):Void;
 
     public static function attachShader(program:GLProgram, shader:GLShader):Void;
 
@@ -36,11 +40,21 @@ extern class GL {
 
     public static function createBuffer():GLBuffer;
 
+    public static function createTexture():GLTexture;
+
     public static function deleteProgram(program:GLProgram):Void;
 
     public static function deleteShader(shader:GLShader):Void;
 
     public static function detachShader(program:GLProgram, shader:GLShader):Void;
+
+    public static function drawElements(mode:Int, count:Int, type:Int, offset:Int):Void;
+
+    public static function drawArrays(mode:Int, first:Int, count:Int):Void;
+
+    public static function enableVertexAttribArray(index:Int):Void;
+
+    public static function generateMipmap(target : Int):Void;
 
     public static function getProgramInfoLog(program:GLProgram):String;
 
@@ -52,9 +66,15 @@ extern class GL {
 
     public static function getUniformLocation(program:GLProgram, name:String):GLUniformLocation;
 
+    public static function hint(target : Int, mode : Int);
+
     public static function linkProgram(program:GLProgram):Void;
 
     public static function shaderSource(shader:GLShader, source:String):Void;
+
+    public static function texImage2D(target : Int, level : Int, internalFormat : Int, width : Int, height : Int, border : Int, format : Int, type : Int, pixels : Data);
+
+    public static function texParameteri(textureType : TextureType, parameterName : Int, parameterValue : Float);
 
     public static function useProgram(program:GLProgram):Void;
 
@@ -63,12 +83,6 @@ extern class GL {
     public static function uniformMatrix4fv(location:GLUniformLocation, count:Int, transpose:Bool, v:Data):Void;
 
     public static function vertexAttribPointer(indx:Int, size:Int, type:Int, normalized:Bool, stride:Int, offset:Int):Void;
-
-    public static function enableVertexAttribArray(index:Int):Void;
-
-    public static function drawElements(mode:Int, count:Int, type:Int, offset:Int):Void;
-
-    public static function drawArrays(mode:Int, first:Int, count:Int):Void;
 
     public static function viewport(x:Int, y:Int, width:Int, height:Int):Void;
 
