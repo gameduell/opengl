@@ -10,16 +10,22 @@ typedef GLBuffer = js.html.webgl.Buffer;
 typedef GLProgram = js.html.webgl.Program;
 typedef GLUniformLocation = js.html.webgl.UniformLocation;
 typedef GLShader = js.html.webgl.Shader;
+typedef GLTexture = js.html.webgl.Texture;
 
 class GL {
-
 
     public static var nullShader = null;
     public static var nullBuffer = null;
     public static var nullProgram = null;
     public static var nullUniformLocation = null;
+    public static var nullTexture = null;
 
 	public static var context : RenderingContext;
+
+    public static function activeTexture(position:Int):Void
+    {
+        context.activeTexture(position);
+    }
 
     public static function attachShader(program:GLProgram, shader:GLShader):Void 
     {
@@ -35,6 +41,11 @@ class GL {
     public static function bindBuffer(target:Int, buffer:GLBuffer):Void 
     {
     	context.bindBuffer(target, buffer);
+    }
+
+    public static function bindTexture(target:Int, texture:GLTexture):Void 
+    {
+        context.bindTexture(target, texture);
     }
 
     public static function bufferData(target:Int, data:Data, usage:Int):Void 
@@ -76,6 +87,11 @@ class GL {
     	return context.createBuffer(); 
     }
 
+    public static function createTexture():GLTexture
+    { 
+        return context.createTexture(); 
+    }
+
     public static function createShader(type:Int):GLShader 
     { 
     	return context.createShader(type); 
@@ -94,6 +110,11 @@ class GL {
     public static function detachShader(program:GLProgram, shader:GLShader):Void 
     {
     	context.detachShader(program, shader);
+    }
+
+    public static function generateMipmap(target : Int) : Void
+    {
+        context.generateMipmap(target);
     }
 
     public static function getProgramInfoLog(program:GLProgram):String 
@@ -121,6 +142,11 @@ class GL {
 		return context.getUniformLocation(program, name);
     }
 
+    public static function hint(target : Int, mode : Int) : Void
+    {
+        context.hint(target, mode);
+    }
+
     public static function linkProgram(program:GLProgram):Void 
     {
 		context.linkProgram(program);
@@ -129,6 +155,16 @@ class GL {
     public static function shaderSource(shader:GLShader, source:String):Void 
     {
     	context.shaderSource(shader, source);
+    }
+
+    public static function texImage2D(target : Int, level : Int, internalFormat : Int, width : Int, height : Int, border : Int, format : Int, type : Int, pixels : Data)
+    {
+        context.texImage2D(target, level, internalFormat, width, height, border, format, type, pixels.uint8Array);
+    }
+
+    public static function texParameteri(textureType : Int, parameterName : Int, parameterValue : Int) : Void
+    {
+        context.texParameteri(textureType, parameterName, parameterValue);
     }
 
     public static function useProgram(program:GLProgram):Void 
