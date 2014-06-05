@@ -23,6 +23,8 @@ extern class GL {
     public static var nullUniformLocation : GLUniformLocation;
     public static var nullTexture : GLTexture;
 
+    ///============ GL API ==============
+
     public static function activeTexture(position : Int):Void;
 
     public static function attachShader(program:GLProgram, shader:GLShader):Void;
