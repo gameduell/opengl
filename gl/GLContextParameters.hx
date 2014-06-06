@@ -10,8 +10,8 @@ typedef GLContextParameters = {
 
     @:required var alpha:Bool;
     @:required var antialias:Bool;
-    @:required var depth:Bool;;
-    @:required var premultipliedAlpha:Bool;;
-    @:required var preserveDrawingBuffer:Bool;;
+    @:required var depth:Bool;
+    @:required var premultipliedAlpha:Bool;
+    @:required var preserveDrawingBuffer:Bool;
     @:required var stencil:Bool;
 }

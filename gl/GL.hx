@@ -81,7 +81,7 @@ extern class GL {
 
     public static function createProgram():GLProgram;
 
-    public static function createRenderBuffer():GLRenderbuffer;
+    public static function createRenderbuffer():GLRenderbuffer;
 
     public static function createShader(type:Int):GLShader;
 
