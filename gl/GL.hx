@@ -67,53 +67,7 @@ class GL {
     public static var nullProgram = 0;
     public static var nullUniformLocation = -1;
     public static var nullTexture = -1;
-    public static var nullContext = -1;
 
-
-    @:functionCode('
-    #ifdef HX_MACOS
-        CGLPixelFormatAttribute attribs[] =
-	    {
-	        kCGLPFAAccelerated,
-	        kCGLPFAColorSize, (CGLPixelFormatAttribute)24,
-	        kCGLPFADepthSize, (CGLPixelFormatAttribute)24,
-	        kCGLPFAAlphaSize, (CGLPixelFormatAttribute)8,
-	        kCGLPFAStencilSize, (CGLPixelFormatAttribute)8,
-	        kCGLPFADoubleBuffer,
-	        kCGLPFASupersample,
-	        kCGLPFAOpenGLProfile, (CGLPixelFormatAttribute)kCGLOGLPVersion_Legacy,
-	        (CGLPixelFormatAttribute)0
-	    };
-
-	    CGLPixelFormatObj pix;
-	    CGLError errorCode = kCGLNoError;
-	    GLint num; // stores the number of possible pixel formats
-
-	    errorCode = CGLChoosePixelFormat( attribs, &pix, &num );
-	    if(errorCode != 0)
-	    {
-        	printf("OpenGL Error %d\\n", errorCode );
-	    }
-
-	    errorCode = CGLCreateContext( pix, NULL, &oglContext );
-	#endif
-	')
-    public static function createContext(params:GLContextParameters):GLContext {return nullContext;}
-
-    @:functionCode('
-    	glActiveTexture(position);
-	')
-    public static function bindContext(context:GLContext):Void {}
-
-    @:functionCode('
-    	glActiveTexture(position);
-	')
-    public static function getCurrentContext():GLContext {return nullContext;}
-
-    @:functionCode('
-    	glActiveTexture(position);
-	')
-    public static function deleteContext(context:GLContext):Void {}
 
 	@:functionCode('
     	glActiveTexture(position);
@@ -240,6 +194,11 @@ class GL {
 	')
     public static function copyTexSubImage2D(target:Int, level:Int, xoffset:Int, yoffset:Int, x:Int, y:Int, width:Int, height:Int):Void  {}
 
+    @:functionCode('
+        return glCheckFramebufferStatus(target);
+	')
+    public static function checkFramebufferStatus(target:Int):Int { return 0; }
+
 	@:functionCode('
 		GLuint program = glCreateProgram();
     	return program;
@@ -271,7 +230,7 @@ class GL {
     	glGenRenderbuffers(1, &bufferID);
     	return bufferID;
 	')
-    public static function createRenderBuffer():GLRenderbuffer {return 0;}
+    public static function createRenderbuffer():GLRenderbuffer {return 0;}
 
 	@:functionCode('
 		GLuint textureID;
@@ -314,6 +273,11 @@ class GL {
     	glDeleteBuffers(1, (const unsigned int*)&shader);
 	')
     public static function deleteBuffer(shader:GLBuffer):Void {}
+
+    @:functionCode('
+    	glDepthMask(flag);
+	')
+    public static function depthMask(flag:Bool):Void {}
 
     @:functionCode('
     	glDetachShader(program, shader);
