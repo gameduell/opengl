@@ -61,9 +61,9 @@ namespace hx{
 class GL {
 
     public static var nullShader = 0;
-    public static var nullBuffer = -1;
-    public static var nullFramebuffer = -1;
-    public static var nullRenderbuffer = -1;
+    public static var nullBuffer = 0;
+    public static var nullFramebuffer = 0;
+    public static var nullRenderbuffer = 0;
     public static var nullProgram = 0;
     public static var nullUniformLocation = -1;
     public static var nullTexture = -1;
