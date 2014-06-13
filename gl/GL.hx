@@ -648,7 +648,7 @@ class GL {
 
     public static function uniformMatrix2fv(location:GLUniformLocation, count:Int, transpose:Bool, data:Data):Void
     {
-        context.uniformMatrix4fv(   location,
+        context.uniformMatrix2fv(   location,
                                     transpose,
                                     data.float32Array.subarray(cast data.offset / 4, cast data.offset / 4 + 2*2 * count));
     }
@@ -656,7 +656,7 @@ class GL {
 
     public static function uniformMatrix3fv(location:GLUniformLocation, count:Int, transpose:Bool, data:Data):Void
     {
-        context.uniformMatrix4fv(location,
+        context.uniformMatrix3fv(location,
                                  transpose,
                                  data.float32Array.subarray(cast data.offset / 4, cast data.offset / 4 + 3*3 * count));
     }
