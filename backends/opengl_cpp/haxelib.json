@@ -3,7 +3,7 @@
     "license" : "Closed",
     "version" : "0.0.1",
     "description" : "An abstraction layer implementation of opengl in cpp.",
+    "releasenote" : "",
     "contributors" : [ "GameDuell GmbH" ],
-    "dependencies" : [ ""]
-    "releasenote" : ""
+    "dependencies" : {}
 }
