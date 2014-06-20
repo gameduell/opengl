@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension>
+	
+	<haxelib name="types" />
+	<haxelib name="opengl_cpp" if="cpp" />
+	<haxelib name="opengl_cpp" if="macane" />
+	<haxelib name="opengl_cpp" if="neko" />
+	<haxelib name="opengl_html5" if="html5" />
+
+</extension>
