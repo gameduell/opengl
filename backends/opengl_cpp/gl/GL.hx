@@ -16,7 +16,7 @@ typedef GLTexture = Int;
 
 	<files id="haxe">
 
-		<include name="${haxelib:types_cpp}/native.xml" />
+		<include name="${haxelib:types}/backends/types_cpp/native.xml" />
 
 	</files>
 
