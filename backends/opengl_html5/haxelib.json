@@ -1,9 +1,0 @@
-{
-    "name" : "opengl_html5",
-    "license" : "Closed",
-    "version" : "0.0.1",
-    "description" : "An abstraction layer implementation of opengl in html5.",
-    "releasenote" : "",
-    "contributors" : [ "GameDuell GmbH" ],
-    "dependencies" : {}
-}
