@@ -275,6 +275,11 @@ class GL {
     public static function deleteBuffer(shader:GLBuffer):Void {}
 
     @:functionCode('
+    	glDepthFunc(func);
+	')
+    public static function depthFunc(func:Int):Void {}
+
+    @:functionCode('
     	glDepthMask(flag);
 	')
     public static function depthMask(flag:Bool):Void {}
