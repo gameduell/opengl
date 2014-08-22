@@ -4,7 +4,6 @@
     <duelllib name="types" />
 
     <include path="backends/opengl_cpp/duell_library.xml" if="cpp" />
-    <include path="backends/opengl_cpp/duell_library.xml" if="macane" />
     <include path="backends/opengl_html5/duell_library.xml" if="html5" />
 
 </library>
