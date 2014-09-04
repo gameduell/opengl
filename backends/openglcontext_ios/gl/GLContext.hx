@@ -30,7 +30,7 @@ class GLContext
     	onRenderOnMainContext = new Signal0();
     	var eaglContext = openglcontextios_initialize_main_context(
     		onRenderOnMainContext.dispatch,
-    		mainContextSizeChangedCallback,
+    		mainContextSizeChangedCallback
     		);
 
     	mainContext = new GLContext(null);
