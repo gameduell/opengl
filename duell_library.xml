@@ -2,8 +2,10 @@
 <library>
 
     <duelllib name="types" />
+    <haxelib name="msignal" />
 
     <include path="backends/opengl_cpp/duell_library.xml" if="cpp" />
     <include path="backends/opengl_html5/duell_library.xml" if="html5" />
+    <include path="backends/openglcontext_ios/duell_library.xml" if="ios" />
 
 </library>
