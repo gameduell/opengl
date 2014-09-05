@@ -48,8 +48,8 @@ class GLContext
         // add the canvas to the body of the document
         body.appendChild( dom );
         // setup dimensions.
-        canvas.width = gl.GLInitialState.html5Width;    
-        canvas.height = gl.GLInitialState.html5Height;
+        canvas.width = gl.GLInitialState.html5Width != null ? gl.GLInitialState.html5Width : 1024;    
+        canvas.height = gl.GLInitialState.html5Height!= null ? gl.GLInitialState.html5Height : 768;
         canvas.id = "#duell-view";
 
     	mainContext = new GLContext(null);
