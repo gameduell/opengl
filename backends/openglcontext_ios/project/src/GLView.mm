@@ -2,7 +2,7 @@
 #import <OpenGLES/ES2/glext.h>
 #import <QuartzCore/QuartzCore.h>
 
-#import "GLView.h"
+#import "openglcontext_ios/GLView.h"
 
 static double GetTimeMS()
 {
@@ -109,6 +109,7 @@ extern void callHaxeMainRenderCallback();
     // ourrending ends here
 }
 
+extern void callHaxeOnSizeChangedCallback();
 - (BOOL)resizeFromLayer
 {
     CAEAGLLayer *layer = (CAEAGLLayer*)self.layer;
@@ -129,6 +130,8 @@ extern void callHaxeMainRenderCallback();
         NSLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
         return NO;
     }
+
+    callHaxeOnSizeChangedCallback();
         
     return YES;
 }

@@ -1,5 +1,5 @@
-#import "OpenGLResponder.h"
-#import "GLViewController.h"
+#import "openglcontext_ios/OpenGLResponder.h"
+#import "openglcontext_ios/GLViewController.h"
 
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
