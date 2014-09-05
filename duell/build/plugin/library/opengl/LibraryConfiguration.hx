@@ -43,7 +43,5 @@ class LibraryConfiguration
 			HTML5_WIDTH : 1024,
 			HTML5_HEIGHT : 768
 		};
-		trace(_configuration);
-
 	}
 }

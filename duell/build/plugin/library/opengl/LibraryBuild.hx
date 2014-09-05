@@ -36,19 +36,21 @@ class LibraryBuild
 {
     public function new ()
     {
-        trace("Initialize OpenGL Library Plugin");
     }
 
 	public function postParse() : Void
 	{
+		/// if no parsing is made we need to add the default state.
+		if (Configuration.getData().LIBRARY.OPENGL == null)
+		{
+			Configuration.getData().LIBRARY.OPENGL = LibraryConfiguration.getData();
+		}
+
 		Configuration.getData().SOURCES.push(Path.join([Configuration.getData().OUTPUT,"html5","opengl"]));
-        trace("PostParse in OpenGL");
 	}
 	
 	public function preBuild() : Void
 	{
-        trace("PreBuild in OpenGL");
-
         var libPath : String = DuellLib.getDuellLib("opengl").getPath();
 
         var exportPath : String = Path.join([Configuration.getData().OUTPUT,"html5","opengl","gl"]);
@@ -61,6 +63,5 @@ class LibraryBuild
 	
 	public function postBuild() : Void
 	{
-        trace("PostBuild in OpenGL");
 	}
 }
