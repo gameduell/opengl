@@ -7,12 +7,15 @@
 package gl;
 
 import msignal.Signal;
+import types.Touch;
 
 /// implemented in openglcontext_ios, openglcontext_android, openglcontext_html5, openglcontext_mac
 extern class GLContext
 {
 	public static var onDrawOnMainContext : Signal0;
-	public static var onTouchOnMainContext : Signal0;
+	public static var onTouchesOnMainContext : Signal1<Array<Touch>>;
+	public static var mouseXInMainContext(default, null) : Int;
+	public static var mouseYInMainContext(default, null) : Int;
 
     public var onContextSizeChanged : Signal0;
     public var contextWidth(default, null) : Int;

@@ -4,12 +4,13 @@
 
 #include <hx/CFFI.h>
 
-#import "OpenGLResponder.h"
+#import "openglcontext_ios/OpenGLResponder.h"
 
 value *__onMainRenderCallback = NULL;
 value *__onSizeChangedCallback = NULL;
+value *__onTouchesCallback = NULL;
 
-static value openglcontextios_initialize_main_context(value onMainRenderCallback, value onSizeChangedCallback)
+static value openglcontextios_initialize_main_context(value onMainRenderCallback, value onSizeChangedCallback, value onTouchesCallback)
 {
 	val_check_function(onMainRenderCallback, 0); // Is Func ?
 
@@ -27,11 +28,19 @@ static value openglcontextios_initialize_main_context(value onMainRenderCallback
 	}
 	*__onSizeChangedCallback = onSizeChangedCallback;
 
+	val_check_function(onTouchesCallback, 1); // Is Func ?
+
+	if (__onTouchesCallback == NULL)
+	{
+		__onTouchesCallback = alloc_root();
+	}
+	*__onTouchesCallback = onTouchesCallback;
+
 	EAGLContext *context = [OpenGLResponder initializeMainContext];
 
 	return (value)context;
 }
-DEFINE_PRIM (openglcontextios_initialize_main_context, 2);
+DEFINE_PRIM (openglcontextios_initialize_main_context, 3);
 
 static value openglcontextios_get_main_context_width()
 {
@@ -53,6 +62,11 @@ void callHaxeMainRenderCallback()
 void callHaxeOnSizeChangedCallback()
 {
 	val_call0(*__onSizeChangedCallback);
+}
+
+void callHaxeOnTouchesCallback(value touchList)
+{
+	val_call1(*__onTouchesCallback, touchList);
 }
 
 extern "C" int openglcontextios_register_prims () { return 0; }

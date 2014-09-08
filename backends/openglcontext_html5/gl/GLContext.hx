@@ -12,12 +12,15 @@ import js.html.*;
 import js.html.webgl.RenderingContext;
 import gl.GL;
 
+import types.Touch;
+
 import msignal.Signal;
 
 class GLContext
 {
 	/// STATIC
 	public static var onRenderOnMainContext : Signal0;
+    public static var onTouchesOnMainContext : Signal1<Array<Touch>>;
 
 	private static var mainContext : GLContext;
 
@@ -38,6 +41,7 @@ class GLContext
         body = doc.body;
 
     	onRenderOnMainContext = new Signal0();
+        onTouchesOnMainContext = new Signal1();
         //create Canvas
         var dom: Element = doc.createElement('Canvas');
         canvas  = cast dom;

@@ -3,6 +3,4 @@
 
     <ndll name="openglcontextios" build-file-path="project/Build.xml" bin-path="ndll" />
 
-    <haxelib name="msignal" />
-    
 </library>
