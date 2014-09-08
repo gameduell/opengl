@@ -48,8 +48,8 @@ class GLContext
         // add the canvas to the body of the document
         body.appendChild( dom );
         // setup dimensions.
-        canvas.width = gl.GLInitialState.html5Width != null ? gl.GLInitialState.html5Width : 1024;    
-        canvas.height = gl.GLInitialState.html5Height!= null ? gl.GLInitialState.html5Height : 768;
+        canvas.width  = gl.GLInitialState.html5Width ;    
+        canvas.height = gl.GLInitialState.html5Height;
         canvas.id = "#duell-view";
 
     	mainContext = new GLContext(null);
@@ -65,7 +65,6 @@ class GLContext
             onRenderOnMainContext.dispatch();
         };
 
-        // requestAnimFrame(onRenderOnMainContext.dispatch);
     }
 
     public static function mainContextSizeChangedCallback()
@@ -96,23 +95,5 @@ class GLContext
     public function destroy() : Void
     {
 
-    }
-    /// Js tick loop
-    public static function requestAnimFrame (method:Dynamic):Void {
-            
-        trace("Request Animation Frame");
-        var requestAnimationFrame:Dynamic = untyped window.requestAnimationFrame || untyped window.webkitRequestAnimationFrame || untyped window.mozRequestAnimationFrame || untyped window.oRequestAnimationFrame || untyped window.msRequestAnimationFrame;
-        
-        if (requestAnimationFrame == null) {
-            
-            requestAnimationFrame = function (method:Dynamic):Void {
-                
-                untyped __js__ ("window.setTimeout") (method, 1000 / 60);   
-                    
-            }
-        }
-        
-        requestAnimationFrame (method); 
-           
     }
 }
