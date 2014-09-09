@@ -10,7 +10,6 @@
 		<file name="src/ExternalInterface.mm"/>
         <file name="src/GLView.mm"/>
         <file name="src/GLViewController.mm"/>
-        <file name="src/GLTouch.cpp"/>
 		
 	</files>
 

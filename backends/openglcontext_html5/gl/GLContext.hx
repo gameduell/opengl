@@ -20,14 +20,11 @@ class GLContext
 {
 	/// STATIC
 	public static var onRenderOnMainContext : Signal0;
-    public static var onTouchesOnMainContext : Signal1<Array<Touch>>;
 
 	private static var mainContext : GLContext;
 
     private static var canvas : CanvasElement;
     private static var body:Element;
-
-    public static var onTouchOnMainContext : Signal0;
 
     public static function getMainContext() : GLContext
     {
