@@ -48,7 +48,9 @@ static double GetTimeMS()
         eaglLayer.opaque = TRUE;
         eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
-		
+
+		eaglLayer.contentsScale = [[UIScreen mainScreen] scale];  // Here we could add a multiplier to support custom pixel scaling. This may improve performance on older devices.
+
 		_context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
         
         if (!_context || ![EAGLContext setCurrentContext:_context])
