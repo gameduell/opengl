@@ -38,7 +38,7 @@ class GLContext
         body = doc.body;
 
     	onRenderOnMainContext = new Signal0();
-        onTouchesOnMainContext = new Signal1();
+
         //create Canvas
         var dom: Element = doc.createElement('Canvas');
         canvas  = cast dom;
@@ -85,7 +85,6 @@ class GLContext
     private function new(params : GLContextParameters) : Void
     {
     	onContextSizeChanged = new Signal0();
-        onTouchOnMainContext = new Signal0();
     }
 
     public function bind() : Void
