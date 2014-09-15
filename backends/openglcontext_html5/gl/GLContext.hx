@@ -12,8 +12,6 @@ import js.html.*;
 import js.html.webgl.RenderingContext;
 import gl.GL;
 
-import types.Touch;
-
 import msignal.Signal;
 
 class GLContext
