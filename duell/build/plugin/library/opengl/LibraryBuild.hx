@@ -46,18 +46,21 @@ class LibraryBuild
 			Configuration.getData().LIBRARY.OPENGL = LibraryConfiguration.getData();
 		}
 
-		Configuration.getData().SOURCES.push(Path.join([Configuration.getData().OUTPUT,"html5","opengl"]));
+		var haxeExtraSources = Path.join([Configuration.getData().OUTPUT,"haxe"]);
+		if (Configuration.getData().SOURCES.indexOf(haxeExtraSources) == -1)
+		{
+			Configuration.getData().SOURCES.push(haxeExtraSources);
+		}
 	}
 	
 	public function preBuild() : Void
 	{
         var libPath : String = DuellLib.getDuellLib("opengl").getPath();
 
-        var exportPath : String = Path.join([Configuration.getData().OUTPUT,"html5","opengl","gl"]);
+        var exportPath : String = Path.join([Configuration.getData().OUTPUT,"haxe","gl"]);
 
         var classSourcePath : String = Path.join([libPath,"template","gl"]);
 
-        var copyDestinationPath : String = Path.join([libPath,"backends","openglcontext_html5","gl"]);
         TemplateHelper.recursiveCopyTemplatedFiles(classSourcePath, exportPath, Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 	}
 	
