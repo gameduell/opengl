@@ -17,15 +17,11 @@ static double GetTimeMS()
 	// The OpenGL names for the framebuffer and renderbuffer used to render to this view
 	GLuint _defaultFramebuffer, _colorRenderbuffer;
     
-    // The OpenGL frame for the depth buffer
-    GLuint _depthRenderbuffer;
+    // The OpenGL name for the depth buffer
+    GLuint _depthStencilRenderbuffer; // Combined depthAndStencil
     
     double _renderTime;
     BOOL _zeroDeltaTime;
-
-
-    // HAXE
-    //AutoGCRoot *_drawCallback;
 }
 
 @end
@@ -79,10 +75,8 @@ static double GetTimeMS()
     glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderbuffer);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _colorRenderbuffer);
     
-    // Create a depth buffer as we want to enable GL_DEPTH_TEST in this sample
-    glGenRenderbuffers(1, &_depthRenderbuffer);
-
-    glEnable(GL_DEPTH_TEST);
+    // Create a depth&stencil buffer as we want to enable DEPTH_TEST and STENCIL_TEST
+    glGenRenderbuffers(1, &_depthStencilRenderbuffer);
 }
 
 extern void callHaxeMainRenderCallback();
@@ -97,18 +91,16 @@ extern void callHaxeMainRenderCallback();
 
     [EAGLContext setCurrentContext:_context];
 
-
-    // ourRendering here
-
     glBindFramebuffer(GL_FRAMEBUFFER, _defaultFramebuffer);
     glViewport(0, 0, _contextWidth, _contextHeight);
 
     glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderbuffer);
+    
+    // ourRendering here
     callHaxeMainRenderCallback();
-
-    [_context presentRenderbuffer:GL_RENDERBUFFER];
-
     // ourrending ends here
+    
+    [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
 extern void callHaxeOnSizeChangedCallback();
@@ -122,11 +114,12 @@ extern void callHaxeOnSizeChangedCallback();
 	glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &_contextWidth);
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &_contextHeight);
     
-    // Allocate storage for the depth buffer, and attach it to the framebuffer’s depth attachment point
-    glBindRenderbuffer(GL_RENDERBUFFER, _depthRenderbuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, _contextWidth, _contextHeight);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthRenderbuffer);
-
+    // Allocate storage for the depth buffer and stencil buffer, and attach it to the framebuffer’s depth attachment point
+    glBindRenderbuffer(GL_RENDERBUFFER, _depthStencilRenderbuffer);
+    glRenderbufferStorage( GL_RENDERBUFFER, GL_DEPTH24_STENCIL8_OES, _contextWidth, _contextHeight );
+    glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthStencilRenderbuffer );
+    glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _depthStencilRenderbuffer );
+    
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
     {
         NSLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
