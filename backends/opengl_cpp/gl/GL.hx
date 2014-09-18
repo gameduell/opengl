@@ -919,7 +919,12 @@ class GL {
     public static function stencilOpSeparate(face:Int, fail:Int, zfail:Int, zpass:Int)  {}
 
 	@:functionCode('
-		glTexImage2D(target, level, internalFormat, width, height, border, format, type, pixels->_nativeData->ptr + pixels->_nativeData->offset);
+        void *dataPointer = NULL;
+        if (pixels != null())
+        {
+            dataPointer = pixels->_nativeData->ptr + pixels->_nativeData->offset;
+        }
+		glTexImage2D(target, level, internalFormat, width, height, border, format, type, dataPointer);
 	') 
     public static function texImage2D(target : Int, level : Int, internalFormat : Int, width : Int, height : Int, border : Int, format : Int, type : Int, pixels : Data) {}
 
