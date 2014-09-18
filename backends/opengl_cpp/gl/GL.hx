@@ -585,7 +585,7 @@ class GL {
     public static function getParameter(pname:Int):Dynamic {return null;}
 
     @:functionCode('
-    	return getError();
+    	return glGetError();
 	')
     public static function getError():Int {return 0;}
 

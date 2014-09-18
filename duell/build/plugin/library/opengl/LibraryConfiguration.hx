@@ -40,8 +40,8 @@ class LibraryConfiguration
 	{
 		_configuration = 
 		{
-			HTML5_WIDTH : 1024,
-			HTML5_HEIGHT : 768
+			HTML5_WIDTH : 640,
+			HTML5_HEIGHT : 380
 		};
 	}
 }
