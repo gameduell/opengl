@@ -68,6 +68,7 @@ class GLContext
 
     public static function mainContextSizeChangedCallback()
     {
+        GL.viewport(0,0,canvas.width, canvas.height);
     	mainContext.contextWidth = canvas.width;
     	mainContext.contextHeight = canvas.height;
     	mainContext.onContextSizeChanged.dispatch();
