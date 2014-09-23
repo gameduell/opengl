@@ -7,7 +7,6 @@
 package gl;
 
 import msignal.Signal;
-import types.Touch;
 
 /// implemented in openglcontext_ios, openglcontext_android, openglcontext_html5, openglcontext_mac
 extern class GLContext
