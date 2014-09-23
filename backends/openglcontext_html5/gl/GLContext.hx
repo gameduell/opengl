@@ -11,7 +11,7 @@ import js.Browser.document;
 import js.html.*;
 import js.html.webgl.RenderingContext;
 import gl.GL;
-
+import gl.GLInitialState;
 import msignal.Signal;
 
 class GLContext
