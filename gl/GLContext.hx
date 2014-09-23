@@ -7,7 +7,6 @@
 package gl;
 
 import msignal.Signal;
-import types.Touch;
 
 /// implemented in openglcontext_ios, openglcontext_android, openglcontext_html5, openglcontext_mac
 extern class GLContext
@@ -21,7 +20,7 @@ extern class GLContext
     public static function getMainContext():GLContext;
 
     /// should be called when the application starts, so the initial context is created.
-    public static function setupMainContext():Void;
+    public static function setupMainContext(finishedCallback : Void->Void):Void;
 
 	/// private for now, we only support the main context atm
     private function new(params:GLContextParameters):Void;

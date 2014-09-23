@@ -30,7 +30,7 @@ class GLContext
     }
 
     
-    public static function setupMainContext(params : GLContextParameters) : Void
+    public static function setupMainContext(finishedCallback : Void->Void) : Void
     {
         var doc = js.Browser.document;
         body = doc.body;
@@ -63,6 +63,8 @@ class GLContext
         timer.run = function(){
             onRenderOnMainContext.dispatch();
         };
+
+        finishedCallback();
 
     }
 

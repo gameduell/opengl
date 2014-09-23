@@ -10,6 +10,17 @@ import msignal.Signal;
 
 import cpp.Lib;
 
+import hxjni.JNI;
+
+import gl.GL;
+
+@:buildXml('
+
+    <target id="haxe" tool="linker" toolid="${haxelink}" output="${HAXE_OUTPUT}${DBG}">
+        <lib name="-lGLESv2" />
+    </target>
+
+')
 class GLContext
 {
 	/// STATIC
@@ -21,38 +32,40 @@ class GLContext
     	return mainContext;
     }
 
-	static private var openglcontextios_initialize_main_context = Lib.load ("openglcontextios", "openglcontextios_initialize_main_context", 2);
-	static private var openglcontextios_get_main_context_width = Lib.load ("openglcontextios", "openglcontextios_get_main_context_width", 0);
-    static private var openglcontextios_get_main_context_height = Lib.load ("openglcontextios", "openglcontextios_get_main_context_height", 0);
-    
-    public static function setupMainContext(finishedCallback : Void->Void) : Void
+	static private var openglcontextandroid_assign_native_callbacks = Lib.load ("openglcontextandroid", "openglcontextandroid_assign_native_callbacks", 2);
+    private static var j_initialize = JNI.createStaticMethod("org/haxe/duell/opengl/DuellGLActivityExtension", "initialize", "()Lorg/haxe/duell/opengl/DuellGLView;");
+
+    public static function setupMainContext(finishedCallback : Void -> Void) : Void
     {
     	onRenderOnMainContext = new Signal0();
 
     	mainContext = new GLContext(null);
 
+        onRenderOnMainContext.addOnce(finishedCallback);
+        
         /// should be called after main context is created because, the size change callbacks are called immediately
-        var eaglContext = openglcontextios_initialize_main_context(
+        openglcontextandroid_assign_native_callbacks(
             onRenderOnMainContext.dispatch,
             mainContextSizeChangedCallback
         );
 
-    	mainContext.nativeContext = eaglContext;
-    	mainContext.contextWidth = openglcontextios_get_main_context_width();
-    	mainContext.contextHeight = openglcontextios_get_main_context_height();
+        mainContext.javaView = j_initialize();
 
-        finishedCallback();
     }
 
-    public static function mainContextSizeChangedCallback()
+    public static function mainContextSizeChangedCallback(width : Int, height : Int)
     {
-    	mainContext.contextWidth = openglcontextios_get_main_context_width();
-    	mainContext.contextHeight = openglcontextios_get_main_context_height();
+        mainContext.contextWidth = width; 
+    	mainContext.contextHeight = height;
+
+        GL.viewport(0, 0, width, height);
+
     	mainContext.onContextSizeChanged.dispatch();
     }
 
     /// INSTANCE
-    private var nativeContext : Dynamic; 
+
+    private var javaView : Dynamic;
 
     public var onContextSizeChanged : Signal0;
     public var contextWidth : Int;
