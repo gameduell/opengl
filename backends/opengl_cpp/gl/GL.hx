@@ -280,7 +280,14 @@ class GL {
     public static function depthFunc(func:Int):Void {}
 
     @:functionCode('
-    	glDepthMask(flag);
+        if (flag)
+        {
+            glDepthMask(GL_TRUE);
+        }
+        else
+        {
+            glDepthMask(GL_FALSE);
+        }
 	')
     public static function depthMask(flag:Bool):Void {}
 
