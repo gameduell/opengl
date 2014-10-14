@@ -5,6 +5,7 @@
  */
 package gl;
 
+import js.html.webgl.ContextAttributes;
 import msignal.Signal;
 
 import js.Browser.document;
@@ -41,7 +42,7 @@ class GLContext
         var dom: Element = doc.createElement('Canvas');
         canvas  = cast dom;
         // grab the CanvasRenderingContext2D for drawing on
-        var  webGLContext : RenderingContext =  canvas.getContextWebGL();
+        var  webGLContext : RenderingContext =  canvas.getContextWebGL({alpha:false});
         // style can be used for postioning/styling the div or canvas.
         var style = dom.style;
         // add the canvas to the body of the document
