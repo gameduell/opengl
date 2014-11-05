@@ -2,3 +2,5 @@ backends/openglcontext_ios/ndll
 backends/openglcontext_ios/project/obj
 backends/openglcontext_android/ndll
 backends/openglcontext_android/project/obj
+.idea/
+*.iml
