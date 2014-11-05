@@ -1,9 +1,0 @@
-{
-    "name" : "opengl",
-    "license" : "Closed",
-    "version" : "0.0.1",
-    "description" : "An abstraction layer for opengl.",
-    "releasenote" : "",
-    "contributors" : [ "GameDuell GmbH" ],
-    "dependencies" : {}
-}
