@@ -133,12 +133,21 @@ extern void callHaxeOnSizeChangedCallback();
 
 - (void)layoutSubviews
 {
-	if ([self resizeFromLayer])
+    CGSize size = self.bounds.size;
+
+    if (!CGSizeEqualToSize(size, self.previousSize))
     {
-        // An external display might just have been connected/disconnected. We do not want to
-        // consider time spent in the connection/disconnection in the animation.
-        _zeroDeltaTime = TRUE;
-        [self drawView:nil];
+        //rebuild framebuffer
+        if ([self resizeFromLayer])
+        {
+            // An external display might just have been connected/disconnected. We do not want to
+            // consider time spent in the connection/disconnection in the animation.
+            _zeroDeltaTime = TRUE;
+            [self drawView:nil];
+        }
+
+        //update size
+        _previousSize = size;
     }
 }
 
