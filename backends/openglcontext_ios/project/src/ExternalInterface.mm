@@ -6,6 +6,8 @@
 
 #import "openglcontext_ios/OpenGLResponder.h"
 
+DEFINE_KIND(k_Context) 
+
 value *__onMainRenderCallback = NULL;
 value *__onSizeChangedCallback = NULL;
 
@@ -29,7 +31,7 @@ static value openglcontextios_initialize_main_context(value onMainRenderCallback
 
 	EAGLContext *context = [OpenGLResponder initializeMainContext];
 
-	return (value)context;
+	return alloc_abstract(k_Context, context);
 }
 DEFINE_PRIM (openglcontextios_initialize_main_context, 2);
 
