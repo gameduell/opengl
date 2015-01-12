@@ -1,12 +1,14 @@
 package org.haxe.duell.opengl;
 
+import android.annotation.TargetApi;
+import android.graphics.Bitmap;
+import android.opengl.GLSurfaceView;
+import android.os.Build;
+import android.util.Log;
+
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLDisplay;
-
-import android.graphics.Bitmap;
-import android.opengl.GLSurfaceView;
-import android.util.Log;
 
 /**
  * EGLConfigChooser implementation for GLES 2.0. Let's hope this really works for all devices with GLES 2.0. Includes
@@ -15,7 +17,9 @@ import android.util.Log;
  * Implementation based in LibGDX, with the source code available at https://github.com/libgdx/libgdx under the Apache
  * 2.0 License.
  */
-final class DuellGLConfigChooser implements GLSurfaceView.EGLConfigChooser {
+@TargetApi(Build.VERSION_CODES.CUPCAKE)
+final class DuellGLConfigChooser implements GLSurfaceView.EGLConfigChooser
+{
 
     private static final String TAG = "GdxEglConfigChooser";
 
@@ -46,9 +50,11 @@ final class DuellGLConfigChooser implements GLSurfaceView.EGLConfigChooser {
      * @param _stencil    the required stencil buffer size in bits
      * @param _numSamples the requested number of samples
      */
-    public DuellGLConfigChooser(Bitmap.Config _config, int _depth, int _stencil, int _numSamples) {
+    public DuellGLConfigChooser(Bitmap.Config _config, int _depth, int _stencil, int _numSamples)
+    {
         // select color size based on config
-        switch (_config) {
+        switch (_config)
+        {
             case ARGB_8888:
                 redSize = 8;
                 greenSize = 8;
@@ -86,7 +92,8 @@ final class DuellGLConfigChooser implements GLSurfaceView.EGLConfigChooser {
      *
      * @return true if CSAA is enabled, false otherwise
      */
-    public boolean isCSAAEnabled() {
+    public boolean isCSAAEnabled()
+    {
         return coverageSamplingAAEnabled;
     }
 
@@ -95,18 +102,21 @@ final class DuellGLConfigChooser implements GLSurfaceView.EGLConfigChooser {
      *
      * @return true if AA is enabled, false otherwise
      */
-    public boolean isAAEnabled() {
+    public boolean isAAEnabled()
+    {
         return antiAliasingEnabled;
     }
 
     @Override
-    public EGLConfig chooseConfig(EGL10 _egl, EGLDisplay _display) {
+    public EGLConfig chooseConfig(EGL10 _egl, EGLDisplay _display)
+    {
         // get (almost) all configs available by using r=g=b=4 so we can choose with big confidence :)
         int[] numConfig = new int[1];
         _egl.eglChooseConfig(_display, configAttribs, null, 0, numConfig);
         int numConfigs = numConfig[0];
 
-        if (numConfigs <= 0) {
+        if (numConfigs <= 0)
+        {
             throw new IllegalArgumentException("No configs match configSpec");
         }
 
@@ -122,17 +132,20 @@ final class DuellGLConfigChooser implements GLSurfaceView.EGLConfigChooser {
         return chooseConfig(_egl, _display, configs);
     }
 
-    private EGLConfig chooseConfig(EGL10 _egl, EGLDisplay _display, EGLConfig[] _configs) {
+    private EGLConfig chooseConfig(EGL10 _egl, EGLDisplay _display, EGLConfig[] _configs)
+    {
         EGLConfig best = null;
         EGLConfig bestAA = null;
         EGLConfig safe = null; //default back to 565 when no exact match found
 
-        for (EGLConfig config : _configs) {
+        for (EGLConfig config : _configs)
+        {
             int d = findConfigAttrib(_egl, _display, config, EGL10.EGL_DEPTH_SIZE, 0);
             int s = findConfigAttrib(_egl, _display, config, EGL10.EGL_STENCIL_SIZE, 0);
 
             // We need at least depthSize and stencilSize bits
-            if (d < depthSize || s < stencilSize) {
+            if (d < depthSize || s < stencilSize)
+            {
                 continue;
             }
 
@@ -143,16 +156,19 @@ final class DuellGLConfigChooser implements GLSurfaceView.EGLConfigChooser {
             int a = findConfigAttrib(_egl, _display, config, EGL10.EGL_ALPHA_SIZE, 0);
 
             // Match RGB565 as a fallback
-            if (safe == null && isMatchingColor(5, 6, 5, 0)) {
+            if (safe == null && isMatchingColor(5, 6, 5, 0))
+            {
                 safe = config;
             }
             // if we have a match, we chose this as our non AA fallback if that one
             // isn't set already.
-            if (best == null && isMatchingColor(r, g, b, a)) {
+            if (best == null && isMatchingColor(r, g, b, a))
+            {
                 best = config;
 
                 // if no AA is requested we can bail out here.
-                if (numSamples == 0) {
+                if (numSamples == 0)
+                {
                     break;
                 }
             }
@@ -162,7 +178,8 @@ final class DuellGLConfigChooser implements GLSurfaceView.EGLConfigChooser {
             int samples = findConfigAttrib(_egl, _display, config, EGL10.EGL_SAMPLES, 0);
 
             // We take the first sort of matching config, thank you.
-            if (bestAA == null && isMultisample(hasSampleBuffers, samples) && isMatchingColor(r, g, b, a)) {
+            if (bestAA == null && isMultisample(hasSampleBuffers, samples) && isMatchingColor(r, g, b, a))
+            {
                 bestAA = config;
                 antiAliasingEnabled = true;
                 continue;
@@ -176,46 +193,59 @@ final class DuellGLConfigChooser implements GLSurfaceView.EGLConfigChooser {
             samples = findConfigAttrib(_egl, _display, config, EGL_COVERAGE_SAMPLES_NV, 0);
 
             // We take the first sort of matching config, thank you.
-            if (bestAA == null && isMultisample(hasSampleBuffers, samples) && isMatchingColor(r, g, b, a)) {
+            if (bestAA == null && isMultisample(hasSampleBuffers, samples) && isMatchingColor(r, g, b, a))
+            {
                 bestAA = config;
                 coverageSamplingAAEnabled = true;
             }
         }
 
-        if (bestAA != null) {
+        if (bestAA != null)
+        {
             return bestAA;
-        } else if (best != null) {
+        }
+        else if (best != null)
+        {
             return best;
-        } else {
+        }
+        else
+        {
             return safe;
         }
     }
 
-    private boolean isMatchingColor(int _r, int _g, int _b, int _a) {
+    private boolean isMatchingColor(int _r, int _g, int _b, int _a)
+    {
         return _r == redSize && _g == greenSize && _b == blueSize && _a == alphaSize;
     }
 
-    private boolean isMultisample(int _hasSampleBuffers, int _numSamples) {
+    private boolean isMultisample(int _hasSampleBuffers, int _numSamples)
+    {
         return _hasSampleBuffers == 1 && _numSamples >= numSamples;
     }
 
-    private int findConfigAttrib(EGL10 _egl, EGLDisplay _display, EGLConfig _config, int _attrib, int _defaultValue) {
-        if (_egl.eglGetConfigAttrib(_display, _config, _attrib, value)) {
+    private int findConfigAttrib(EGL10 _egl, EGLDisplay _display, EGLConfig _config, int _attrib, int _defaultValue)
+    {
+        if (_egl.eglGetConfigAttrib(_display, _config, _attrib, value))
+        {
             return value[0];
         }
         return _defaultValue;
     }
 
-    private void printConfigs(EGL10 _egl, EGLDisplay _display, EGLConfig[] _configs) {
+    private void printConfigs(EGL10 _egl, EGLDisplay _display, EGLConfig[] _configs)
+    {
         int numConfigs = _configs.length;
         Log.w(TAG, String.format("%d configurations", numConfigs));
-        for (int i = 0; i < numConfigs; i++) {
+        for (int i = 0; i < numConfigs; i++)
+        {
             Log.w(TAG, String.format("Configuration %d:\n", i));
             printConfig(_egl, _display, _configs[i]);
         }
     }
 
-    private void printConfig(EGL10 _egl, EGLDisplay _display, EGLConfig _config) {
+    private void printConfig(EGL10 _egl, EGLDisplay _display, EGLConfig _config)
+    {
         int[] attributes = {EGL10.EGL_BUFFER_SIZE, EGL10.EGL_ALPHA_SIZE, EGL10.EGL_BLUE_SIZE, EGL10.EGL_GREEN_SIZE,
                 EGL10.EGL_RED_SIZE, EGL10.EGL_DEPTH_SIZE, EGL10.EGL_STENCIL_SIZE, EGL10.EGL_CONFIG_CAVEAT, EGL10.EGL_CONFIG_ID,
                 EGL10.EGL_LEVEL, EGL10.EGL_MAX_PBUFFER_HEIGHT, EGL10.EGL_MAX_PBUFFER_PIXELS, EGL10.EGL_MAX_PBUFFER_WIDTH,
@@ -239,12 +269,16 @@ final class DuellGLConfigChooser implements GLSurfaceView.EGLConfigChooser {
                 "EGL_LUMINANCE_SIZE", "EGL_ALPHA_MASK_SIZE", "EGL_COLOR_BUFFER_TYPE", "EGL_RENDERABLE_TYPE", "EGL_CONFORMANT",
                 "EGL_COVERAGE_BUFFERS_NV", "EGL_COVERAGE_SAMPLES_NV"};
 
-        for (int i = 0; i < attributes.length; i++) {
+        for (int i = 0; i < attributes.length; i++)
+        {
             int attribute = attributes[i];
             String name = names[i];
-            if (_egl.eglGetConfigAttrib(_display, _config, attribute, value)) {
+            if (_egl.eglGetConfigAttrib(_display, _config, attribute, value))
+            {
                 Log.w(TAG, String.format("  %s: %d\n", name, value[0]));
-            } else {
+            }
+            else
+            {
                 _egl.eglGetError();
             }
         }
