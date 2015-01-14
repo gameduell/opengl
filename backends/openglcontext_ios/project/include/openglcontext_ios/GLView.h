@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 
+
 @interface GLView : UIView
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;

@@ -2,20 +2,14 @@
 #import "openglcontext_ios/GLView.h"
 
 
-@interface GLViewController ()
-{
-}
-
-@end
-
 @implementation GLViewController
 
 - (id)init
 {
     self = [super init];
     if (self)
-    {
-    }
+    {}
+
     return self;
 }
 
@@ -68,17 +62,17 @@
     return UIInterfaceOrientationMaskAll;
 }
 
-- (EAGLContext *)getOGLContext
+- (EAGLContext *)context
 {
     return ((GLView *)self.view).context;
 }
 
-- (int)getContextWidth
+- (int)contextWidth
 {
     return ((GLView *)self.view).contextWidth;
 }
 
-- (int)getContextHeight
+- (int)contextHeight
 {
     return ((GLView *)self.view).contextHeight;
 }
@@ -86,6 +80,7 @@
 - (void)dealloc
 {
     [self.view release];
+    
     [super dealloc];
 }
 

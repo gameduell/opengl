@@ -1,40 +1,38 @@
+#import <UIKit/UIKit.h>
+
 #import "openglcontext_ios/OpenGLResponder.h"
+
 #import "openglcontext_ios/GLViewController.h"
 
-#import <OpenGLES/ES2/gl.h>
-#import <OpenGLES/ES2/glext.h>
-
-@interface OpenGLResponder ()
-{
-    //AutoGCRoot *_memoryWarningCallback;
-}
-
-@end
-
-static UIWindow *__window;
 
 @implementation OpenGLResponder
 
-+ (EAGLContext *) initializeMainContext
++ (EAGLContext *)initializeMainContext
 {
-    __window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    GLViewController *controller = [[GLViewController alloc] init];
-    __window.rootViewController = controller;
+     GLViewController* controller = [[GLViewController alloc] init];
+     window.rootViewController = controller;
 
-    [__window makeKeyAndVisible];
+    [window makeKeyAndVisible];
 
-    return [controller getOGLContext];
+    return controller.context;
 }
 
-+ (int)getContextWidth
-{
-	return [((GLViewController *)__window.rootViewController) getContextWidth];
++ (int)contextWidth 
+{   
+    return self.glViewcontroller.contextWidth;
 }
 
-+ (int)getContextHeight
++ (int)contextHeight
 {
-	return [((GLViewController *)__window.rootViewController) getContextHeight];
+    return self.glViewcontroller.contextHeight;
+}
+
++ (GLViewController *)glViewcontroller
+{
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    return (GLViewController*) window.rootViewController;
 }
 
 @end
