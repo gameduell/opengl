@@ -37,13 +37,13 @@ DEFINE_PRIM (openglcontextios_initialize_main_context, 2);
 
 static value openglcontextios_get_main_context_width()
 {
-	return alloc_int([OpenGLResponder getContextWidth]);
+	return alloc_int([OpenGLResponder contextWidth]);
 }
 DEFINE_PRIM (openglcontextios_get_main_context_width, 0);
 
 static value openglcontextios_get_main_context_height()
 {
-	return alloc_int([OpenGLResponder getContextHeight]);
+	return alloc_int([OpenGLResponder contextHeight]);
 }
 DEFINE_PRIM (openglcontextios_get_main_context_height, 0);
 

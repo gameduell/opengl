@@ -2,10 +2,11 @@
 
 @class EAGLContext;
 
+
 @interface OpenGLResponder : NSObject
 
-+ (EAGLContext *) initializeMainContext;
-+ (int)getContextWidth;
-+ (int)getContextHeight;
++ (EAGLContext *)initializeMainContext;
++ (int)contextWidth;
++ (int)contextHeight;
 
 @end
