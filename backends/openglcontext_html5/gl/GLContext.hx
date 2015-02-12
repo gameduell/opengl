@@ -42,7 +42,14 @@ class GLContext
         var dom: Element = doc.createElement('Canvas');
         canvas  = cast dom;
         // grab the CanvasRenderingContext2D for drawing on
-        var  webGLContext : RenderingContext =  canvas.getContextWebGL({alpha:false});
+        var  webGLContext : RenderingContext =  canvas.getContextWebGL({alpha:false, antialias:true, depth:true, premultipliedAlpha:false, preserveDrawingBuffer:false, stencil:true});
+        var contextAttributes = webGLContext.getContextAttributes();
+
+        if (!contextAttributes.stencil)
+        {
+            trace("Warning No Stencil buffer attached:");
+        }
+
         // style can be used for postioning/styling the div or canvas.
         var style = dom.style;
         // add the canvas to the body of the document
