@@ -19,7 +19,7 @@ public class DuellGLActivityExtension extends Extension
                     "Cannot properly initialize opengl this way.");
         }
 
-        DuellActivity.getInstance().setContentView(view);
+        DuellActivity.getInstance().parent.addView(view);
         DuellActivity.getInstance().mainView = new WeakReference<View>(view);
 
         return view;
