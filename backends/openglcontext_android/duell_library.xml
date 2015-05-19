@@ -7,13 +7,11 @@
 
     <duelllib name="hxjni"  version="1.0.0+"/>
 
-
     <platform-config>
     	<android>
     		<java-source name="DuellGLActivityExtension" path="java" />
     		<activity-extension name="org.haxe.duell.opengl.DuellGLActivityExtension" />
     		<uses name="glEsVersion" value="0x00020000" required="true" />
-    		<uses value="android.hardware.touchscreen.multitouch.distinct" required="true" />
     	</android>
 	</platform-config>
 </library>
