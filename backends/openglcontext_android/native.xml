@@ -1,4 +1,0 @@
-<xml>
-		<compilerflag value="-I${haxelib:duell_opengl}/backends/openglcontext_ios/project/include" />
-</xml>
-
