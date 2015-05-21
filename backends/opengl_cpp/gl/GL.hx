@@ -1,3 +1,29 @@
+/*
+ * Copyright (c) 2003-2015, GameDuell GmbH
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package gl;
 
 import gl.GLDefines;
@@ -24,7 +50,7 @@ typedef GLTexture = Int;
 
 @:headerCode('
 	#include <types/NativeData.h>
-	
+
 	#include <cstdlib>
 	#ifdef ANDROID
 	#include <GLES2/gl2.h>
@@ -42,7 +68,7 @@ typedef GLTexture = Int;
 	#endif
 ')
 
-@:cppFileCode('		
+@:cppFileCode('
 
 namespace hx{
 	HX_CHAR *NewString(int inLen);
@@ -53,10 +79,10 @@ namespace hx{
 
 #endif
 
-') 
+')
 
-@:headerClassCode('		
-') 
+@:headerClassCode('
+')
 
 class GL {
 
@@ -71,23 +97,23 @@ class GL {
 
 	@:functionCode('
     	glActiveTexture(position);
-	') 
+	')
     public static function activeTexture(position:Int):Void {}
 
 	@:functionCode('
-    	glAttachShader( program, 
+    	glAttachShader( program,
     					shader );
-	') 
+	')
     public static function attachShader(program:GLProgram, shader:GLShader):Void {}
 
 	@:functionCode('
     	glBindAttribLocation(program, index, name.__CStr());
-	') 
+	')
     public static function bindAttribLocation(program:GLProgram, index:Int, name:String):Void {}
 
 	@:functionCode('
     	glBindBuffer(target, buffer);
-	') 
+	')
     public static function bindBuffer(target:Int, buffer:GLBuffer):Void {}
 
     @:functionCode('
@@ -102,7 +128,7 @@ class GL {
 
 	@:functionCode('
     	glBindTexture(target, texture);
-	') 
+	')
     public static function bindTexture(target:Int, texture:GLTexture):Void {}
 
     @:functionCode('
@@ -132,22 +158,22 @@ class GL {
 
 	@:functionCode('
     	glBufferData(target, data->_nativeData->offsetLength, (uint8_t*)data->_nativeData->ptr + data->_nativeData->offset, usage);
-	') 
+	')
     public static function bufferData(target:Int, data:Data, usage:Int):Void {}
 
 	@:functionCode('
     	glBufferSubData(target, offsetInBuffer, data->_nativeData->offsetLength, (uint8_t*)data->_nativeData->ptr + data->_nativeData->offset);
-	') 
+	')
     public static function bufferSubData(target:Int, offsetInBuffer:Int, data:Data):Void {}
-    
+
 	@:functionCode('
     	glClearColor(red, green, blue, alpha);
-	') 
+	')
     public static function clearColor(red:Float, green:Float, blue:Float, alpha:Float):Void {}
 
 	@:functionCode('
     	glClear(mask);
-	') 
+	')
     public static function clear(mask:Int):Void {}
 
     @:functionCode('
@@ -171,7 +197,7 @@ class GL {
 
 	@:functionCode('
     	glCompileShader(shader);
-	') 
+	')
     public static function compileShader(shader:GLShader):Void {}
 
     @:functionCode('
@@ -202,7 +228,7 @@ class GL {
 	@:functionCode('
 		GLuint program = glCreateProgram();
     	return program;
-	') 
+	')
     public static function createProgram():GLProgram { return 0; }
 
     @:functionCode('
@@ -216,13 +242,13 @@ class GL {
 		GLuint bufferID;
     	glGenBuffers(1, &bufferID);
     	return bufferID;
-	') 
+	')
     public static function createBuffer():GLBuffer { return 0; }
 
 	@:functionCode('
     	GLuint shader = glCreateShader(type);
     	return shader;
-	') 
+	')
     public static function createShader(type:Int):GLShader { return 0; }
 
     @:functionCode('
@@ -236,7 +262,7 @@ class GL {
 		GLuint textureID;
     	glGenTextures(1, &textureID);
     	return textureID;
-	') 
+	')
     public static function createTexture():GLTexture { return 0; }
 
     @:functionCode('
@@ -256,12 +282,12 @@ class GL {
 
 	@:functionCode('
     	glDeleteProgram(program);
-	') 
+	')
     public static function deleteProgram(program:GLProgram):Void {}
 
 	@:functionCode('
     	glDeleteShader(shader);
-	') 
+	')
     public static function deleteShader(shader:GLShader):Void {}
 
     @:functionCode('
@@ -293,7 +319,7 @@ class GL {
 
     @:functionCode('
     	glDetachShader(program, shader);
-	') 
+	')
     public static function detachShader(program:GLProgram, shader:GLShader):Void {}
 
     @:functionCode('
@@ -353,7 +379,7 @@ class GL {
 
     @:functionCode('
     	glGenerateMipmap(target);
-	') 
+	')
     public static function generateMipmap(target : Int) {}
 
     @:functionCode('
@@ -811,7 +837,7 @@ class GL {
 
 	@:functionCode('
 		glHint(target, mode);
-	') 
+	')
     public static function hint(target : Int, mode : Int) : Void {}
 
     @:functionCode('
@@ -856,7 +882,7 @@ class GL {
 
 	@:functionCode('
     	glLinkProgram(program);
-	') 
+	')
     public static function linkProgram(program:GLProgram):Void {}
 
     @:functionCode('
@@ -932,12 +958,12 @@ class GL {
             dataPointer = pixels->_nativeData->ptr + pixels->_nativeData->offset;
         }
 		glTexImage2D(target, level, internalFormat, width, height, border, format, type, dataPointer);
-	') 
+	')
     public static function texImage2D(target : Int, level : Int, internalFormat : Int, width : Int, height : Int, border : Int, format : Int, type : Int, pixels : Data) {}
 
 	@:functionCode('
     	glTexParameteri(textureType, parameterName, parameterValue);
-	') 
+	')
     public static function texParameteri(textureType : Int, parameterName : Int, parameterValue : Int) : Void{};
 
     @:functionCode('
@@ -1056,12 +1082,12 @@ class GL {
 
 	@:functionCode('
     	glUseProgram(program);
-	') 
+	')
     public static function useProgram(program:GLProgram):Void {}
 
 	@:functionCode('
     	glVertexAttribPointer(indx, size, type, normalized, stride, (void*)offset);
-	') 
+	')
     public static function vertexAttribPointer(indx:Int, size:Int, type:Int, normalized:Bool, stride:Int, offset:Int):Void {}
 
     @:functionCode('
@@ -1106,7 +1132,7 @@ class GL {
 
 	@:functionCode('
     	glViewport(x, y, width, height);
-	') 
+	')
     public static function viewport(x:Int, y:Int, width:Int, height:Int):Void {}
 
 }

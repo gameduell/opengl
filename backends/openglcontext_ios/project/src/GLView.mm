@@ -1,3 +1,29 @@
+/*
+ * Copyright (c) 2003-2015, GameDuell GmbH
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #import <QuartzCore/QuartzCore.h>
@@ -13,13 +39,13 @@ static double GetTimeMS()
 {
     NSInteger _animationFrameInterval;
 	CADisplayLink *_displayLink;
-	
+
 	// The OpenGL names for the framebuffer and renderbuffer used to render to this view
 	GLuint _defaultFramebuffer, _colorRenderbuffer;
-    
+
     // The OpenGL name for the depth buffer
     GLuint _depthStencilRenderbuffer; // Combined depthAndStencil
-    
+
     double _renderTime;
     BOOL _zeroDeltaTime;
 }
@@ -40,7 +66,7 @@ static double GetTimeMS()
     {
         // Get the layer
         CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
-        
+
         eaglLayer.opaque = TRUE;
         eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
@@ -48,21 +74,21 @@ static double GetTimeMS()
 		eaglLayer.contentsScale = [[UIScreen mainScreen] scale];  // Here we could add a multiplier to support custom pixel scaling. This may improve performance on older devices.
 
 		_context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-        
+
         if (!_context || ![EAGLContext setCurrentContext:_context])
 		{
             return nil;
         }
-        
+
         [self setupGL];
-        
+
 		_animating = FALSE;
         _animationFrameInterval = 1;
 		_displayLink = nil;
-        
+
         _zeroDeltaTime = TRUE;
     }
-    
+
     return self;
 }
 
@@ -74,7 +100,7 @@ static double GetTimeMS()
     glBindFramebuffer(GL_FRAMEBUFFER, _defaultFramebuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderbuffer);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _colorRenderbuffer);
-    
+
     // Create a depth&stencil buffer as we want to enable DEPTH_TEST and STENCIL_TEST
     glGenRenderbuffers(1, &_depthStencilRenderbuffer);
 }
@@ -85,7 +111,7 @@ extern void callHaxeMainRenderCallback();
     double currentTime = GetTimeMS();
     double deltaTime = _zeroDeltaTime ? 0.0 : currentTime - _renderTime;
     _renderTime = currentTime;
-    
+
     if (_zeroDeltaTime)
         _zeroDeltaTime = FALSE;
 
@@ -95,11 +121,11 @@ extern void callHaxeMainRenderCallback();
     glViewport(0, 0, _contextWidth, _contextHeight);
 
     glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderbuffer);
-    
+
     // ourRendering here
     callHaxeMainRenderCallback();
     // ourrending ends here
-    
+
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
@@ -107,19 +133,19 @@ extern void callHaxeOnSizeChangedCallback();
 - (BOOL)resizeFromLayer
 {
     CAEAGLLayer *layer = (CAEAGLLayer*)self.layer;
-    
+
 	// Allocate color buffer backing based on the current layer size
     glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderbuffer);
     [_context renderbufferStorage:GL_RENDERBUFFER fromDrawable:layer];
 	glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &_contextWidth);
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &_contextHeight);
-    
+
     // Allocate storage for the depth buffer and stencil buffer, and attach it to the framebuffer’s depth attachment point
     glBindRenderbuffer(GL_RENDERBUFFER, _depthStencilRenderbuffer);
     glRenderbufferStorage( GL_RENDERBUFFER, GL_DEPTH24_STENCIL8_OES, _contextWidth, _contextHeight );
     glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthStencilRenderbuffer );
     glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _depthStencilRenderbuffer );
-    
+
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
     {
         NSLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
@@ -127,7 +153,7 @@ extern void callHaxeOnSizeChangedCallback();
     }
 
     callHaxeOnSizeChangedCallback();
-        
+
     return YES;
 }
 
@@ -151,7 +177,7 @@ extern void callHaxeOnSizeChangedCallback();
     }
 }
 
-#pragma Display Link 
+#pragma Display Link
 
 - (NSInteger)animationFrameInterval
 {
@@ -169,7 +195,7 @@ extern void callHaxeOnSizeChangedCallback();
 	if (frameInterval >= 1)
 	{
 		_animationFrameInterval = frameInterval;
-		
+
 		if (_animating)
 		{
 			[self stopAnimation];
@@ -212,13 +238,13 @@ extern void callHaxeOnSizeChangedCallback();
 		glDeleteFramebuffers(1, &_defaultFramebuffer);
 		_defaultFramebuffer = 0;
 	}
-	
+
 	if (_colorRenderbuffer)
 	{
 		glDeleteRenderbuffers(1, &_colorRenderbuffer);
 		_colorRenderbuffer = 0;
 	}
-    
+
     // tear down context
 	if ([EAGLContext currentContext] == _context)
         [EAGLContext setCurrentContext:nil];

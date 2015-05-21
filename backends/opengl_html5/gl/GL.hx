@@ -1,3 +1,29 @@
+/*
+ * Copyright (c) 2003-2015, GameDuell GmbH
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package gl;
 
 import js.html.webgl.ShaderPrecisionFormat;
@@ -35,18 +61,18 @@ class GL {
         context.activeTexture(position);
     }
 
-    public static function attachShader(program:GLProgram, shader:GLShader):Void 
+    public static function attachShader(program:GLProgram, shader:GLShader):Void
     {
     	context.attachShader(program, shader);
 
     }
 
-    public static function bindAttribLocation(program:GLProgram, index:Int, name:String):Void 
+    public static function bindAttribLocation(program:GLProgram, index:Int, name:String):Void
     {
     	context.bindAttribLocation(program, index, name);
     }
 
-    public static function bindBuffer(target:Int, buffer:GLBuffer):Void 
+    public static function bindBuffer(target:Int, buffer:GLBuffer):Void
     {
     	context.bindBuffer(target, buffer);
     }
@@ -61,7 +87,7 @@ class GL {
         context.bindRenderbuffer(target, renderbuffer);
     }
 
-    public static function bindTexture(target:Int, texture:GLTexture):Void 
+    public static function bindTexture(target:Int, texture:GLTexture):Void
     {
         context.bindTexture(target, texture);
     }
@@ -91,17 +117,17 @@ class GL {
         context.blendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
     }
 
-    public static function bufferData(target:Int, data:Data, usage:Int):Void 
+    public static function bufferData(target:Int, data:Data, usage:Int):Void
     {
     	context.bufferData(target, data.uint8Array.subarray(data.offset, data.offset + data.offsetLength), usage);
     }
 
-    public static function bufferSubData(	target:Int, 
-    										offsetInBuffer:Int, 
-    										data:Data):Void 
+    public static function bufferSubData(	target:Int,
+    										offsetInBuffer:Int,
+    										data:Data):Void
     {
-    	context.bufferSubData(	target, 
-    							offsetInBuffer, 
+    	context.bufferSubData(	target,
+    							offsetInBuffer,
     							data.uint8Array.subarray(data.offset, data.offset + data.offsetLength));
     }
 
@@ -135,7 +161,7 @@ class GL {
         context.colorMask(red, green, blue, alpha);
     }
 
-    public static function compileShader(shader:GLShader):Void 
+    public static function compileShader(shader:GLShader):Void
     {
     	context.compileShader(shader);
     }
@@ -160,9 +186,9 @@ class GL {
         context.copyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
     }
 
-    public static function createProgram():GLProgram 
-    { 
-    	return context.createProgram(); 
+    public static function createProgram():GLProgram
+    {
+    	return context.createProgram();
     }
 
     public static function createFramebuffer():GLFramebuffer
@@ -175,19 +201,19 @@ class GL {
         return context.createRenderbuffer();
     }
 
-    public static function createBuffer():GLBuffer 
-    { 
-    	return context.createBuffer(); 
+    public static function createBuffer():GLBuffer
+    {
+    	return context.createBuffer();
     }
 
     public static function createTexture():GLTexture
-    { 
-        return context.createTexture(); 
+    {
+        return context.createTexture();
     }
 
-    public static function createShader(type:Int):GLShader 
-    { 
-    	return context.createShader(type); 
+    public static function createShader(type:Int):GLShader
+    {
+    	return context.createShader(type);
     }
 
     public static function cullFace(mode:Int):Void
@@ -210,12 +236,12 @@ class GL {
         context.deleteRenderbuffer(renderbuffer);
     }
 
-    public static function deleteProgram(program:GLProgram):Void 
+    public static function deleteProgram(program:GLProgram):Void
     {
-    	context.deleteProgram(program); 
+    	context.deleteProgram(program);
     }
 
-    public static function deleteShader(shader:GLShader):Void 
+    public static function deleteShader(shader:GLShader):Void
     {
 		context.deleteShader(shader);
     }
@@ -240,7 +266,7 @@ class GL {
         context.depthRange(zNear, zFar);
     }
 
-    public static function detachShader(program:GLProgram, shader:GLShader):Void 
+    public static function detachShader(program:GLProgram, shader:GLShader):Void
     {
     	context.detachShader(program, shader);
     }
@@ -357,13 +383,13 @@ class GL {
         return context.getFramebufferAttachmentParameter(target, attachment, pname);
     }
 
-    public static function getProgramInfoLog(program:GLProgram):String 
-    { 
+    public static function getProgramInfoLog(program:GLProgram):String
+    {
     	return context.getProgramInfoLog(program);
     }
 
-    public static function getProgramParameter(program:GLProgram, pname:Int):Int 
-    { 
+    public static function getProgramParameter(program:GLProgram, pname:Int):Int
+    {
 		return context.getProgramParameter(program, pname);
     }
 
@@ -372,13 +398,13 @@ class GL {
         return context.getRenderbufferParameter(target, pname);
     }
 
-    public static function getShaderInfoLog(shader:GLShader):String 
-    { 
+    public static function getShaderInfoLog(shader:GLShader):String
+    {
 		return context.getShaderInfoLog(shader);
     }
 
-    public static function getShaderParameter(shader:GLShader, pname:Int):Int 
-    { 
+    public static function getShaderParameter(shader:GLShader, pname:Int):Int
+    {
 		return context.getShaderParameter(shader, pname);
     }
 
@@ -408,8 +434,8 @@ class GL {
         return context.getUniform(program, location);
     }
 
-    public static function getUniformLocation(program:GLProgram, name:String):GLUniformLocation 
-    { 
+    public static function getUniformLocation(program:GLProgram, name:String):GLUniformLocation
+    {
 		return context.getUniformLocation(program, name);
     }
 
@@ -468,7 +494,7 @@ class GL {
         context.lineWidth(width);
     }
 
-    public static function linkProgram(program:GLProgram):Void 
+    public static function linkProgram(program:GLProgram):Void
     {
 		context.linkProgram(program);
     }
@@ -503,7 +529,7 @@ class GL {
         context.scissor(x, y, width, height);
     }
 
-    public static function shaderSource(shader:GLShader, source:String):Void 
+    public static function shaderSource(shader:GLShader, source:String):Void
     {
     	context.shaderSource(shader, source);
     }
@@ -720,17 +746,17 @@ class GL {
         context.vertexAttrib4fv(indx, data.float32Array.subarray(cast data.offset / 4, cast data.offset / 4 + 4));
     }
 
-    public static function vertexAttribPointer( indx:Int, 
-    											size:Int, 
-    											type:Int, 
-    											normalized:Bool, 
-    											stride:Int, 
-    											offset:Int):Void 
+    public static function vertexAttribPointer( indx:Int,
+    											size:Int,
+    											type:Int,
+    											normalized:Bool,
+    											stride:Int,
+    											offset:Int):Void
     {
 		context.vertexAttribPointer(indx, size, type, normalized, stride, offset);
     }
 
-    public static function viewport(x:Int, y:Int, width:Int, height:Int):Void 
+    public static function viewport(x:Int, y:Int, width:Int, height:Int):Void
     {
 		context.viewport(x, y, width, height);
     }
