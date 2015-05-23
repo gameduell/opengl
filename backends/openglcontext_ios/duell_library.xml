@@ -3,4 +3,14 @@
 
     <ndll name="openglcontextios" build-file-path="project/Build.xml" bin-path="ndll" />
 
+	<platform-config>
+
+		<ios>
+            <framework name="UIKit.framework" />
+			<framework name="OpenGLES.framework" />
+            <framework name="QuartzCore.framework" />
+		</ios>
+
+	</platform-config>
+
 </library>
