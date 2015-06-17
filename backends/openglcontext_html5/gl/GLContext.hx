@@ -26,6 +26,7 @@
 
 package gl;
 
+import js.Browser;
 import js.html.webgl.ContextAttributes;
 import msignal.Signal;
 
@@ -87,14 +88,15 @@ class GLContext
     	mainContext.contextHeight = canvas.height;
         GL.viewport(0,0,canvas.width, canvas.height);
 
-
-        var timer = new haxe.Timer(16); // 1000ms delay
-        timer.run = function(){
-            onRenderOnMainContext.dispatch();
-        };
+        Browser.window.requestAnimationFrame(_onRequestAnimationFrame);
 
         finishedCallback();
+    }
 
+    @:noCompletion static function _onRequestAnimationFrame(time: Float): Void
+    {
+        onRenderOnMainContext.dispatch();
+        Browser.window.requestAnimationFrame(_onRequestAnimationFrame);
     }
 
     public static function mainContextSizeChangedCallback()
