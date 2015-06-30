@@ -33,6 +33,7 @@ extern class GLContext
 {
 	public static var onRenderOnMainContext : Signal0;
 
+    public var onContextRecreated : Signal0;
     public var onContextSizeChanged : Signal0;
     public var contextWidth(default, null) : Int;
     public var contextHeight(default, null) : Int;

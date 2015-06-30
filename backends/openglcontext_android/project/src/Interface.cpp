@@ -61,8 +61,9 @@ struct AutoHaxe
 
 value *__onMainRenderCallback = NULL;
 value *__onSizeChangedCallback = NULL;
+value *__onContextRecreatedCallback = NULL;
 
-static value openglcontextandroid_assign_native_callbacks(value onMainRenderCallback, value onSizeChangedCallback)
+static value openglcontextandroid_assign_native_callbacks(value onMainRenderCallback, value onSizeChangedCallback, value onContextRecreatedCallback)
 {
 	val_check_function(onMainRenderCallback, 0); // Is Func ?
 
@@ -80,14 +81,23 @@ static value openglcontextandroid_assign_native_callbacks(value onMainRenderCall
 	}
 	*__onSizeChangedCallback = onSizeChangedCallback;
 
+	val_check_function(onContextRecreatedCallback, 0); // Is Func ?
+
+    	if (__onContextRecreatedCallback == NULL)
+    	{
+    		__onContextRecreatedCallback = alloc_root();
+    	}
+    	*__onContextRecreatedCallback = onContextRecreatedCallback;
+
 	return alloc_null();
 }
-DEFINE_PRIM (openglcontextandroid_assign_native_callbacks, 2);
+DEFINE_PRIM (openglcontextandroid_assign_native_callbacks, 3);
 
 
 extern "C" {
 	JAVA_EXPORT void JNICALL Java_org_haxe_duell_opengl_DuellGLNativeInterface_onSizeChanged(JNIEnv * env, jobject obj, jint width, jint height);
 	JAVA_EXPORT void JNICALL Java_org_haxe_duell_opengl_DuellGLNativeInterface_onRender(JNIEnv * env, jobject obj);
+	JAVA_EXPORT void JNICALL Java_org_haxe_duell_opengl_DuellGLNativeInterface_onContextRecreated(JNIEnv * env, jobject obj);
 };
 
 JAVA_EXPORT void JNICALL Java_org_haxe_duell_opengl_DuellGLNativeInterface_onSizeChanged(JNIEnv * env, jobject obj, jint width, jint height)
@@ -100,6 +110,13 @@ JAVA_EXPORT void JNICALL Java_org_haxe_duell_opengl_DuellGLNativeInterface_onRen
 {
 	AutoHaxe haxe("onRender");
 	val_call0(*__onMainRenderCallback);
+}
+
+JAVA_EXPORT void JNICALL Java_org_haxe_duell_opengl_DuellGLNativeInterface_onContextRecreated(JNIEnv * env, jobject obj)
+{
+    __android_log_print(ANDROID_LOG_VERBOSE, "OpenGL", "ContextRecreated");
+	AutoHaxe haxe("onContextRecreated");
+	val_call0(*__onContextRecreatedCallback);
 }
 
 extern "C" int openglcontextandroid_register_prims () { return 0; }

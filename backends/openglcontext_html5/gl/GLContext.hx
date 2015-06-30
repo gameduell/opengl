@@ -26,6 +26,10 @@
 
 package gl;
 
+#if debug
+import js.html.webgl.WebGLDebugUtils;
+#end
+
 import js.Browser;
 import js.html.webgl.ContextAttributes;
 import msignal.Signal;
@@ -45,13 +49,19 @@ class GLContext
 	private static var mainContext : GLContext;
 
     private static var canvas : CanvasElement;
-    private static var body:Element;
+
+#if debug
+    private static var debugCanvas: WebGLDebugLostContextSimulatingCanvas;
+#end
+
+    private static var body : Element;
+
+    private static var requestId : Int;
 
     public static function getMainContext() : GLContext
     {
     	return mainContext;
     }
-
 
     public static function setupMainContext(finishedCallback : Void->Void) : Void
     {
@@ -63,8 +73,25 @@ class GLContext
         //create Canvas
         var dom: Element = doc.createElement('Canvas');
         canvas  = cast dom;
+
+#if debug
+        debugCanvas = WebGLDebugUtils.makeLostContextSimulatingCanvas(canvas);
+#end
+
+        canvas.addEventListener(
+            "webglcontextlost", handleContextLost, false);
+        canvas.addEventListener(
+            "webglcontextrestored", handleContextRestored, false);
+
         // grab the CanvasRenderingContext2D for drawing on
-        var  webGLContext : RenderingContext =  canvas.getContextWebGL({alpha:false, antialias:true, depth:true, premultipliedAlpha:false, preserveDrawingBuffer:false, stencil:true});
+        var  webGLContext : RenderingContext = canvas.getContextWebGL({alpha:false, antialias:true, depth:true, premultipliedAlpha:false, preserveDrawingBuffer:false, stencil:true});
+
+#if debug
+        WebGLDebugUtils.init(webGLContext);
+        webGLContext = WebGLDebugUtils.makeDebugContext(webGLContext);
+
+        //debugCanvas.loseContextInNCalls(5000);
+#end
         var contextAttributes = webGLContext.getContextAttributes();
 
         if (!contextAttributes.stencil)
@@ -77,7 +104,7 @@ class GLContext
         // add the canvas to the body of the document
         body.appendChild( dom );
         // setup dimensions.
-        canvas.width  = gl.GLInitialState.html5Width ;
+        canvas.width  = gl.GLInitialState.html5Width;
         canvas.height = gl.GLInitialState.html5Height;
         canvas.id = "#duell-view";
 
@@ -88,7 +115,7 @@ class GLContext
     	mainContext.contextHeight = canvas.height;
         GL.viewport(0,0,canvas.width, canvas.height);
 
-        Browser.window.requestAnimationFrame(_onRequestAnimationFrame);
+        requestId = Browser.window.requestAnimationFrame(_onRequestAnimationFrame);
 
         finishedCallback();
     }
@@ -96,7 +123,19 @@ class GLContext
     @:noCompletion static function _onRequestAnimationFrame(time: Float): Void
     {
         onRenderOnMainContext.dispatch();
-        Browser.window.requestAnimationFrame(_onRequestAnimationFrame);
+        requestId = Browser.window.requestAnimationFrame(_onRequestAnimationFrame);
+    }
+
+    @:noCompletion static function handleContextLost(event)
+    {
+        event.preventDefault();
+        Browser.window.cancelAnimationFrame(requestId);
+    }
+
+    @:noCompletion static function handleContextRestored(event)
+    {
+        mainContext.onContextRecreated.dispatch();
+        _onRequestAnimationFrame(0.0);
     }
 
     public static function mainContextSizeChangedCallback()
@@ -110,12 +149,14 @@ class GLContext
     /// INSTANCE
     private var nativeContext : Dynamic;
 
+    public var onContextRecreated : Signal0;
     public var onContextSizeChanged : Signal0;
     public var contextWidth : Int;
     public var contextHeight : Int;
 
     private function new(params : GLContextParameters) : Void
     {
+        onContextRecreated = new Signal0();
     	onContextSizeChanged = new Signal0();
     }
 

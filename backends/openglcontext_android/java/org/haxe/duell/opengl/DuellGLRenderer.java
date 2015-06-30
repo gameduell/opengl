@@ -68,5 +68,7 @@ class DuellGLRenderer implements GLSurfaceView.Renderer
                     }
                 }
         );
+
+        DuellGLNativeInterface.onContextRecreated();
     }
 }

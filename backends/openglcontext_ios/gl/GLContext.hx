@@ -74,12 +74,14 @@ class GLContext
     /// INSTANCE
     private var nativeContext : Dynamic;
 
+    public var onContextRecreated : Signal0;
     public var onContextSizeChanged : Signal0;
     public var contextWidth : Int;
     public var contextHeight : Int;
 
     private function new(params : GLContextParameters) : Void
     {
+        onContextRecreated = new Signal0();
     	onContextSizeChanged = new Signal0();
     }
 

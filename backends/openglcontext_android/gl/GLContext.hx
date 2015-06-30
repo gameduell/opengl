@@ -52,7 +52,7 @@ class GLContext
     	return mainContext;
     }
 
-	static private var openglcontextandroid_assign_native_callbacks = Lib.load ("openglcontextandroid", "openglcontextandroid_assign_native_callbacks", 2);
+	static private var openglcontextandroid_assign_native_callbacks = Lib.load ("openglcontextandroid", "openglcontextandroid_assign_native_callbacks", 3);
     private static var j_initialize = JNI.createStaticMethod("org/haxe/duell/opengl/DuellGLActivityExtension", "initialize", "()Lorg/haxe/duell/opengl/DuellGLView;");
 
     public static function setupMainContext(finishedCallback : Void -> Void) : Void
@@ -66,7 +66,8 @@ class GLContext
         /// should be called after main context is created because, the size change callbacks are called immediately
         openglcontextandroid_assign_native_callbacks(
             onRenderOnMainContext.dispatch,
-            mainContextSizeChangedCallback
+            mainContextSizeChangedCallback,
+            mainContext.onContextRecreated.dispatch
         );
 
         mainContext.javaView = j_initialize();
@@ -87,12 +88,14 @@ class GLContext
 
     private var javaView : Dynamic;
 
+    public var onContextRecreated : Signal0;
     public var onContextSizeChanged : Signal0;
     public var contextWidth : Int;
     public var contextHeight : Int;
 
     private function new(params : GLContextParameters) : Void
     {
+        onContextRecreated = new Signal0();
     	onContextSizeChanged = new Signal0();
     }
 

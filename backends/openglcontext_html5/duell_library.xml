@@ -1,3 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <library xmlns="duell">
+
+    <platform-config>
+
+        <html5>
+            <js-source path="dependencies/WebGLDebugUtils/webgl-debug.js" if="debug"/>
+        </html5>
+
+    </platform-config>
+
 </library>
