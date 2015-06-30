@@ -119,7 +119,7 @@ class GL {
 
     public static function bufferData(target:Int, data:Data, usage:Int):Void
     {
-    	context.bufferData(target, data.uint8Array), usage);
+    	context.bufferData(target, data.uint8Array, usage);
     }
 
     public static function bufferSubData(	target:Int,
