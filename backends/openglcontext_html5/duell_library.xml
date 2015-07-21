@@ -4,7 +4,7 @@
     <platform-config>
 
         <html5>
-            <js-source path="dependencies/WebGLDebugUtils/webgl-debug.js" if="debug"/>
+            <js-source path="dependencies/WebGLDebugUtils/webgl-debug.js" if="webgldebug"/>
         </html5>
 
     </platform-config>

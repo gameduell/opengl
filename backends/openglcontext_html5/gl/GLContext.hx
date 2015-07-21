@@ -26,7 +26,7 @@
 
 package gl;
 
-#if debug
+#if webgldebug
 import js.html.webgl.WebGLDebugUtils;
 #end
 
@@ -50,7 +50,7 @@ class GLContext
 
     private static var canvas : CanvasElement;
 
-#if debug
+#if webgldebug
     private static var debugCanvas: WebGLDebugLostContextSimulatingCanvas;
 #end
 
@@ -74,7 +74,7 @@ class GLContext
         var dom: Element = doc.createElement('Canvas');
         canvas  = cast dom;
 
-#if debug
+#if webgldebug
         debugCanvas = WebGLDebugUtils.makeLostContextSimulatingCanvas(canvas);
 #end
 
@@ -86,7 +86,7 @@ class GLContext
         // grab the CanvasRenderingContext2D for drawing on
         var  webGLContext : RenderingContext = canvas.getContextWebGL({alpha:false, antialias:true, depth:true, premultipliedAlpha:false, preserveDrawingBuffer:false, stencil:true});
 
-#if debug
+#if webgldebug
         WebGLDebugUtils.init(webGLContext);
         webGLContext = WebGLDebugUtils.makeDebugContext(webGLContext);
 
