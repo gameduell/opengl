@@ -32,7 +32,7 @@
  * @see http://www.khronos.org/webgl/wiki/HandlingContextLost
  */
 
-#if debug
+#if webgldebug
 
 package js.html.webgl;
 
