@@ -191,7 +191,7 @@ extern class GL {
 
     public static function getTexParameter(target:Int, pname:Int):Dynamic;
 
-    public static function getUniform(program:GLProgram, location:GLUniformLocation);
+    public static function getUniform(program:GLProgram, location:GLUniformLocation): Dynamic;
 
     public static function getUniformLocation(program:GLProgram, name:String):GLUniformLocation;
 
@@ -199,7 +199,7 @@ extern class GL {
 
     public static function getVertexAttribOffset(index:Int, pname:Int):Int;
 
-    public static function hint(target : Int, mode : Int);
+    public static function hint(target : Int, mode : Int): Void;
 
     public static function isBuffer(buffer:GLBuffer):Bool;
 
