@@ -1,0 +1,11 @@
+package opengl;
+import gl.GL;
+import gl.GL.GLBuffer;
+import gl.GL.GLFramebuffer;
+import gl.GL.GLProgram;
+import gl.GL.GLRenderbuffer;
+import gl.GL.GLShader;
+import gl.GL.GLTexture;
+import gl.GL.GLUniformLocation;
+import gl.GLDefines;
+import gl.GLContext;

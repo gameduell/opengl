@@ -12,4 +12,10 @@
     <include path="backends/openglcontext_ios/duell_library.xml" if="ios" />
     <include path="backends/openglcontext_android/duell_library.xml" if="android" />
 
+    <platform-config>
+        <documentation>
+            <documentation-folder library="opengl" path="documentation" />
+        </documentation>
+    </platform-config>
+
 </library>
