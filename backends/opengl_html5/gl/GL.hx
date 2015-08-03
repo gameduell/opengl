@@ -119,16 +119,28 @@ class GL {
 
     public static function bufferData(target:Int, data:Data, usage:Int):Void
     {
-    	context.bufferData(target, data.uint8Array, usage);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.bufferData(target, data.uint8Array.subarray(data.offset, data.offset + data.offsetLength), usage);
+        }
+        else
+        {
+            context.bufferData(target, data.uint8Array, usage);
+        }
     }
 
     public static function bufferSubData(	target:Int,
     										offsetInBuffer:Int,
     										data:Data):Void
     {
-    	context.bufferSubData(	target,
-    							offsetInBuffer,
-    							data.uint8Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+    	    context.bufferSubData(	target, offsetInBuffer, data.uint8Array.subarray(data.offset, data.offset + data.offsetLength));
+        }
+        else
+        {
+            context.bufferSubData(	target, offsetInBuffer, data.uint8Array);
+        }
     }
 
     public static function checkFramebufferStatus(target:Int):Int
@@ -168,12 +180,26 @@ class GL {
 
     public static function compressedTexImage2D(target:Int, level:Int, internalFormat:Int, width:Int, height:Int, border:Int, data:Data)
     {
-        context.compressedTexImage2D(target, level, internalFormat, width, height, border, data.uint8Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.compressedTexImage2D(target, level, internalFormat, width, height, border, data.uint8Array.subarray(data.offset, data.offset + data.offsetLength));
+        }
+        else
+        {
+            context.compressedTexImage2D(target, level, internalFormat, width, height, border, data.uint8Array);
+        }
     }
 
     public static function compressedTexSubImage2D(target:Int, level:Int, xoffset:Int, yoffset:Int, width:Int, height:Int, format:Int, data:Data)
     {
-        context.compressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, data.uint8Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.compressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, data.uint8Array.subarray(data.offset, data.offset + data.offsetLength));
+        }
+        else
+        {
+            context.compressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, data.uint8Array);
+        }
     }
 
     public static function copyTexImage2D(target:Int, level:Int, internalFormat:Int, x:Int, y:Int, width:Int, height:Int, border:Int)
@@ -511,7 +537,14 @@ class GL {
 
     public static function readPixels(x:Int, y:Int, width:Int, height:Int, format:Int, type:Int, outputData:Data):Void
     {
-        context.readPixels(x, y, width, height, format, type, outputData.uint8Array);
+        if (outputData.offset != 0)
+        {
+            context.readPixels(x, y, width, height, format, type, outputData.uint8Array.subarray(outputData.offset, outputData.offset + outputData.offsetLength));
+        }
+        else
+        {
+            context.readPixels(x, y, width, height, format, type, outputData.uint8Array);
+        }
     }
 
     public static function renderbufferStorage(target:Int, internalFormat:Int, width:Int, height:Int):Void
@@ -564,9 +597,16 @@ class GL {
         context.stencilFuncSeparate(face, fail, zfail, zpass);
     }
 
-    public static function texImage2D(target : Int, level : Int, internalFormat : Int, width : Int, height : Int, border : Int, format : Int, type : Int, pixels : Data)
+    public static function texImage2D(target : Int, level : Int, internalFormat : Int, width : Int, height : Int, border : Int, format : Int, type : Int, data : Data)
     {
-        context.texImage2D(target, level, internalFormat, width, height, border, format, type, pixels.uint8Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.texImage2D(target, level, internalFormat, width, height, border, format, type, data.uint8Array.subarray(data.offset, data.offset + data.offsetLength));
+        }
+        else
+        {
+            context.texImage2D(target, level, internalFormat, width, height, border, format, type, data.uint8Array);
+        }
     }
 
     public static function texParameteri(textureType : Int, parameterName : Int, parameterValue : Int) : Void
@@ -587,9 +627,16 @@ class GL {
                                             height:Int,
                                             format:Int,
                                             type:Int,
-                                            pixels:Data):Void
+                                            data:Data):Void
     {
-        context.texSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels.uint8Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.texSubImage2D(target, level, xoffset, yoffset, width, height, format, type, data.uint8Array.subarray(data.offset, data.offset + data.offsetLength));
+        }
+        else
+        {
+            context.texSubImage2D(target, level, xoffset, yoffset, width, height, format, type, data.uint8Array);
+        }
     }
 
     public static function uniform1f(location:GLUniformLocation, v0:Float):Void
@@ -599,12 +646,26 @@ class GL {
 
     public static function uniform1fv(location:GLUniformLocation, count:Int, data:Data):Void
     {
-        context.uniform1fv(location, data.float32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.uniform1fv(location, data.float32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 1 * count));
+        }
+        else
+        {
+            context.uniform1fv(location, data.float32Array);
+        }
     }
 
     public static function uniform1iv(location:GLUniformLocation, count:Int, data:Data):Void
     {
-        context.uniform1iv(location, data.int32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.uniform1iv(location, data.int32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 1 * count));
+        }
+        else
+        {
+            context.uniform1iv(location, data.int32Array);
+        }
     }
 
     public static function uniform1i(location:GLUniformLocation, v0:Int):Void
@@ -619,7 +680,14 @@ class GL {
 
     public static function uniform2fv(location:GLUniformLocation, count:Int, data:Data):Void
     {
-        context.uniform2fv(location, data.float32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.uniform2fv(location, data.float32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 2 * count));
+        }
+        else
+        {
+            context.uniform2fv(location, data.float32Array);
+        }
     }
 
     public static function uniform2i(location:GLUniformLocation, v0:Int, v1:Int):Void
@@ -629,7 +697,14 @@ class GL {
 
     public static function uniform2iv(location:GLUniformLocation, count:Int, data:Data):Void
     {
-        context.uniform2iv(location, data.int32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.uniform2iv(location, data.int32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 2 * count));
+        }
+        else
+        {
+            context.uniform2iv(location, data.int32Array);
+        }
     }
 
     public static function uniform3f(location:GLUniformLocation, v0:Float, v1:Float, v2:Float):Void
@@ -639,7 +714,14 @@ class GL {
 
     public static function uniform3fv(location:GLUniformLocation, count:Int, data:Data):Void
     {
-        context.uniform3fv(location, data.float32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.uniform3fv(location, data.float32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 3 * count));
+        }
+        else
+        {
+            context.uniform3fv(location, data.float32Array);
+        }
     }
 
     public static function uniform3i(location:GLUniformLocation, v0:Int, v1:Int, v2:Int):Void
@@ -649,7 +731,14 @@ class GL {
 
     public static function uniform3iv(location:GLUniformLocation, count:Int, data:Data):Void
     {
-        context.uniform3iv(location, data.int32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.uniform3iv(location, data.int32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 3 * count));
+        }
+        else
+        {
+            context.uniform3iv(location, data.int32Array);
+        }
     }
 
     public static function uniform4f(location:GLUniformLocation, v0:Float, v1:Float, v2:Float, v3:Float):Void
@@ -659,7 +748,14 @@ class GL {
 
     public static function uniform4fv(location:GLUniformLocation, count:Int, data:Data):Void
     {
-        context.uniform4fv(location, data.float32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.uniform4fv(location, data.float32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 4 * count));
+        }
+        else
+        {
+            context.uniform4fv(location, data.float32Array);
+        }
     }
 
     public static function uniform4i(location:GLUniformLocation, v0:Int, v1:Int, v2:Int, v3:Int):Void
@@ -669,30 +765,53 @@ class GL {
 
     public static function uniform4iv(location:GLUniformLocation, count:Int, data:Data):Void
     {
-        context.uniform4iv(location, data.int32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.uniform4iv(location, data.int32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 4 * count));
+        }
+        else
+        {
+            context.uniform4iv(location, data.int32Array);
+        }
     }
 
     public static function uniformMatrix2fv(location:GLUniformLocation, count:Int, transpose:Bool, data:Data):Void
     {
-        context.uniformMatrix2fv(   location,
-                                    transpose,
-                                    data.float32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.uniformMatrix2fv(location, transpose, data.float32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 2*2 * count));
+        }
+        else
+        {
+            context.uniformMatrix2fv(location, transpose, data.float32Array);
+        }
     }
 
 
     public static function uniformMatrix3fv(location:GLUniformLocation, count:Int, transpose:Bool, data:Data):Void
     {
-        context.uniformMatrix3fv(location,
-                                 transpose,
-                                 data.float32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.uniformMatrix3fv(location, transpose, data.float32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 3*3 * count));
+        }
+        else
+        {
+            context.uniformMatrix3fv(location, transpose, data.float32Array);
+        }
     }
 
 
     public static function uniformMatrix4fv(location:GLUniformLocation, count:Int, transpose:Bool, data:Data):Void
     {
-        context.uniformMatrix4fv(location,
-                                 transpose,
-                                 data.float32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.uniformMatrix4fv(location, transpose, data.float32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 4*4 * count));
+
+        }
+        else
+        {
+            context.uniformMatrix4fv(location, transpose, data.float32Array);
+        }
     }
 
     public static function useProgram(program:GLProgram):Void
@@ -713,7 +832,14 @@ class GL {
 
     public static function vertexAttrib1fv(indx:Int, data:Data):Void
     {
-        context.vertexAttrib1fv(indx, data.float32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.vertexAttrib1fv(indx, data.float32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 1));
+        }
+        else
+        {
+            context.vertexAttrib1fv(indx, data.float32Array);
+        }
     }
 
     public static function vertexAttrib2f(indx:Int, x:Float, y:Float):Void
@@ -723,7 +849,14 @@ class GL {
 
     public static function vertexAttrib2fv(indx:Int, data:Data):Void
     {
-        context.vertexAttrib2fv(indx, data.float32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.vertexAttrib2fv(indx, data.float32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 2));
+        }
+        else
+        {
+            context.vertexAttrib2fv(indx, data.float32Array);
+        }
     }
 
     public static function vertexAttrib3f(indx:Int, x:Float, y:Float, z:Float):Void
@@ -733,7 +866,14 @@ class GL {
 
     public static function vertexAttrib3fv(indx:Int, data:Data):Void
     {
-        context.vertexAttrib3fv(indx, data.float32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.vertexAttrib3fv(indx, data.float32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 3));
+        }
+        else
+        {
+            context.vertexAttrib3fv(indx, data.float32Array);
+        }
     }
 
     public static function vertexAttrib4f(indx:Int, x:Float, y:Float, z:Float, w:Float):Void
@@ -743,7 +883,14 @@ class GL {
 
     public static function vertexAttrib4fv(indx:Int, data:Data):Void
     {
-        context.vertexAttrib4fv(indx, data.float32Array);
+        if (data.offset != 0 || data.allocedLength != data.offsetLength)
+        {
+            context.vertexAttrib4fv(indx, data.float32Array.subarray(Std.int(data.offset / 4), Std.int(data.offset / 4) + 4));
+        }
+        else
+        {
+            context.vertexAttrib4fv(indx, data.float32Array);
+        }
     }
 
     public static function vertexAttribPointer( indx:Int,
