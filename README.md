@@ -6,3 +6,15 @@ It currently has a very initial implementation of a initial opengl state xml con
 ## Usage:
 
 Initialize the GLContext and call OpenGL methods.
+
+= Release Log =
+
+
+== v5.0.0 ==
+
+=== OpenGL ===
+
+- Added files for documentation generation.
+- Refactored opengl backend for HTML5, that it just creates data views on the served data, when it is actually needed.
+  This reduces GC activity a lot on HTML5.
+- Implemented a webgl debugger to simulate losing the opengl context. Compile with -D webgldebug to activate it.
