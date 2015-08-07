@@ -485,7 +485,10 @@ class GL {
             // case GL_ARRAY_BUFFER_BINDING  WebGLBuffer
             // case GL_CURRENT_PROGRAM  WebGLProgram
             // case GL_ELEMENT_ARRAY_BUFFER_BINDING  WebGLBuffer
-            // case GL_FRAMEBUFFER_BINDING  WebGLFramebuffer
+            case GL_FRAMEBUFFER_BINDING:
+                int val;
+                glGetIntegerv(pname,&val);
+                return val;
             // case GL_RENDERBUFFER_BINDING  WebGLRenderbuffer
             // case GL_TEXTURE_BINDING_2D  WebGLTexture
             // case GL_TEXTURE_BINDING_CUBE_MAP  WebGLTexture
