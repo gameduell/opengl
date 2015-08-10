@@ -26,8 +26,8 @@
 
 package gl;
 
-import gl.GLDefines;
-
+@:keep
+@:keepInit
 class GLDefines {
 
     /* ClearBufferMask */
@@ -278,6 +278,7 @@ class GLDefines {
     public static inline var VENDOR                              = 0x1F00;
     public static inline var RENDERER                             = 0x1F01;
     public static inline var VERSION                                = 0x1F02;
+    public static inline var EXTENSIONS                             =   0x1F03;
 
     /* TextureMagFilter */
     public static inline var NEAREST                                = 0x2600;

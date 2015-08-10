@@ -84,6 +84,8 @@ namespace hx{
 @:headerClassCode('
 ')
 
+@:keep
+@:keepInit
 class GL {
 
     public static var nullShader = 0;
@@ -568,8 +570,15 @@ class GL {
                 ints = 1;
                 break;
 
+            case GL_EXTENSIONS:
+                strings = 1;
+                break;
             case GL_VENDOR:
+                strings = 1;
+                break;
             case GL_VERSION:
+                strings = 1;
+                break;
             case GL_RENDERER:
                 strings = 1;
                 break;
@@ -589,7 +598,7 @@ class GL {
 
             memcpy(result, val, sizeof(HX_CHAR)*(val_size));
 
-            return ::String(val, val_size);
+            return ::String(result, val_size);
         }
         else if (floats==1)
         {

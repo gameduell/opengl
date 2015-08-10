@@ -475,6 +475,11 @@ class GL {
         return context.getVertexAttribOffset(index, pname);
     }
 
+    public static function getSupportedExtensions() : Array<String>
+    {
+        return context.getSupportedExtensions();
+    }
+
     public static function hint(target : Int, mode : Int) : Void
     {
         context.hint(target, mode);
