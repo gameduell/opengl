@@ -9,6 +9,7 @@
 
     <platform-config>
     	<android>
+			<proguard path="proguard.cfg" />
     		<java-source name="DuellGLActivityExtension" path="java" />
     		<activity-extension name="org.haxe.duell.opengl.DuellGLActivityExtension" />
     		<uses name="glEsVersion" value="0x00020000" required="true" />
