@@ -30,6 +30,8 @@ import gl.GLDefines;
 import gl.GLExtDefines;
 import types.Data;
 
+typedef GLVertexArrayObject = Int;
+
 @:buildXml('
 
 	<files id="haxe">
@@ -80,6 +82,8 @@ namespace hx{
 @:keepInit
 class GLExt {
 
+    public static var nullVertexArrayObject: GLVertexArrayObject = 0;
+
     @:functionCode('
         GLenum discards[] = {0,0,0};
 
@@ -106,4 +110,33 @@ class GLExt {
         glDiscardFramebufferEXT(target, count, discards);
 	')
     public static function discardFramebufferEXT(target:Int, color:Int = 0, depth:Int = 0, stencil:Int = 0): Void {}
+
+
+    @:functionCode('
+        GLsizei count = 1;
+        GLuint arrays[] = {0};
+
+        glGenVertexArraysOES(count, arrays);
+
+        return arrays[0];
+	')
+    public static function createVertexArrayOES(): GLVertexArrayObject {return 0;}
+
+    @:functionCode('
+        GLsizei count = 1;
+        GLuint arrays[] = {arrayObject};
+
+        glDeleteVertexArraysOES(count, arrays);
+	')
+    public static function deleteVertexArrayOES(arrayObject: GLVertexArrayObject): Void {}
+
+    @:functionCode('
+        glBindVertexArrayOES(arrayObject);
+	')
+    public static function bindVertexArrayOES(arrayObject: GLVertexArrayObject): Void {}
+
+    @:functionCode('
+        return glIsVertexArrayOES(arrayObject);
+	')
+    public static function isVertexArrayOES(arrayObject: GLVertexArrayObject): Bool {return false;}
 }

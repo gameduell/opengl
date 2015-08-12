@@ -44,15 +44,17 @@ typedef GLUniformLocation = js.html.webgl.UniformLocation;
 typedef GLShader = js.html.webgl.Shader;
 typedef GLTexture = js.html.webgl.Texture;
 
+@:keep
+@:keepInit
 class GL {
 
-    public static var nullShader = null;
-    public static var nullBuffer = null;
-    public static var nullRenderbuffer = null;
-    public static var nullFramebuffer = null;
-    public static var nullProgram = null;
-    public static var nullUniformLocation = null;
-    public static var nullTexture = null;
+    public static var nullShader: GLShader = null;
+    public static var nullBuffer: GLBuffer = null;
+    public static var nullRenderbuffer: GLRenderbuffer = null;
+    public static var nullFramebuffer: GLFramebuffer = null;
+    public static var nullProgram: GLProgram = null;
+    public static var nullUniformLocation: GLUniformLocation = null;
+    public static var nullTexture: GLTexture = null;
 
 	public static var context : RenderingContext;
 
@@ -912,5 +914,4 @@ class GL {
     {
 		context.viewport(x, y, width, height);
     }
-
 }

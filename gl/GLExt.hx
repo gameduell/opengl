@@ -26,9 +26,19 @@
 
 package gl;
 
+extern class GLVertexArrayObject {}
+
 extern class GLExt
 {
     ///============ GL EXTENSIONS API ==============
 
     public static function discardFramebufferEXT(target:Int, color:Int = 0, depth:Int = 0, stencil:Int = 0): Void;
+
+    public static function createVertexArrayOES(): GLVertexArrayObject;
+
+    public static function deleteVertexArrayOES(arrayObject: GLVertexArrayObject ) : Void;
+
+    public static function bindVertexArrayOES(arrayObject: GLVertexArrayObject ) : Void;
+
+    public static function isVertexArrayOES(arrayObject: GLVertexArrayObject ) : Bool;
 }

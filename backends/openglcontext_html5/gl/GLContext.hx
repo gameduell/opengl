@@ -110,6 +110,7 @@ class GLContext
 
     	mainContext = new GLContext(null);
         GL.context = webGLContext;
+        GLExt.context = webGLContext;
         mainContext.nativeContext = webGLContext;
     	mainContext.contextWidth = canvas.width;
     	mainContext.contextHeight = canvas.height;

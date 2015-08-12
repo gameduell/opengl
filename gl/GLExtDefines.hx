@@ -35,4 +35,12 @@ class GLExtDefines
     public static inline var COLOR_EXT            = 0x1800;
     public static inline var DEPTH_EXT            = 0x1801;
     public static inline var STENCIL_EXT          = 0x1802;
+
+    #if html5
+    public static inline var OES_vertex_array_object          = "OES_vertex_array_object";
+    public static inline var VERTEX_ARRAY_BINDING_OES: Int = 34229;
+    #else
+    public static inline var OES_vertex_array_object          = "GL_OES_vertex_array_object";
+    public static inline var VERTEX_ARRAY_BINDING_OES    = 0x85B5;
+    #end
 }
