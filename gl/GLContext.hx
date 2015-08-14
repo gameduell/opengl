@@ -31,6 +31,16 @@ import msignal.Signal;
 /// implemented in openglcontext_ios, openglcontext_android, openglcontext_html5, openglcontext_mac
 extern class GLContext
 {
+    // Is set on initialisation
+    public var vendor(default, null): Null<String>;
+    public var renderer(default, null): Null<String>;
+    public var version(default, null): Null<String>;
+    public var extensions(default, null): Null<String>;
+
+    // API Extensions
+    public var supportsDiscardFramebuffer(default, null): Bool = false;
+    public var supportsVertexArrayObjects(default, null): Bool = false;
+
 	public static var onRenderOnMainContext : Signal0;
 
     public var onContextRecreated : Signal0;
@@ -49,5 +59,4 @@ extern class GLContext
     public function bind():Void;
 
     public function destroy():Void;
-
 }

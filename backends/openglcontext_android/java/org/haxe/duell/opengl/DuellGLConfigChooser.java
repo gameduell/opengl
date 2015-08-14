@@ -36,6 +36,7 @@ import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLDisplay;
 
+
 /**
  * EGLConfigChooser implementation for GLES 2.0. Let's hope this really works for all devices with GLES 2.0. Includes
  * MSAA/CSAA config selection if requested. Taken from GLSurfaceView20, heavily modified to accommodate MSAA/CSAA.
@@ -46,12 +47,12 @@ import javax.microedition.khronos.egl.EGLDisplay;
 @TargetApi(Build.VERSION_CODES.CUPCAKE)
 final class DuellGLConfigChooser implements GLSurfaceView.EGLConfigChooser
 {
-
-    private static final String TAG = "GdxEglConfigChooser";
+    private static final String TAG = "DuellGLConfigChooser";
 
     private static final int EGL_COVERAGE_BUFFERS_NV = 0x30E0;
     private static final int EGL_COVERAGE_SAMPLES_NV = 0x30E1;
     private static final int EGL_OPENGL_ES2_BIT = 4;
+
 
     private final int redSize;
     private final int greenSize;
@@ -107,8 +108,14 @@ final class DuellGLConfigChooser implements GLSurfaceView.EGLConfigChooser
         stencilSize = _stencil;
         numSamples = _numSamples;
 
-        configAttribs = new int[]{EGL10.EGL_RED_SIZE, 4, EGL10.EGL_GREEN_SIZE, 4, EGL10.EGL_BLUE_SIZE, 4,
-                EGL10.EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT, EGL10.EGL_NONE};
+        configAttribs = new int[]{EGL10.EGL_RED_SIZE,   redSize,
+                EGL10.EGL_GREEN_SIZE, greenSize,
+                EGL10.EGL_BLUE_SIZE,  blueSize,
+                EGL10.EGL_ALPHA_SIZE, alphaSize,
+                EGL10.EGL_DEPTH_SIZE, depthSize,
+                EGL10.EGL_SAMPLE_BUFFERS, numSamples,
+                EGL10.EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+                EGL10.EGL_NONE};
 
         value = new int[1];
     }
@@ -262,10 +269,10 @@ final class DuellGLConfigChooser implements GLSurfaceView.EGLConfigChooser
     private void printConfigs(EGL10 _egl, EGLDisplay _display, EGLConfig[] _configs)
     {
         int numConfigs = _configs.length;
-        Log.w(TAG, String.format("%d configurations", numConfigs));
+        Log.v(TAG, String.format("%d configurations", numConfigs));
         for (int i = 0; i < numConfigs; i++)
         {
-            Log.w(TAG, String.format("Configuration %d:\n", i));
+            Log.v(TAG, String.format("Configuration %d:\n", i));
             printConfig(_egl, _display, _configs[i]);
         }
     }
@@ -301,7 +308,7 @@ final class DuellGLConfigChooser implements GLSurfaceView.EGLConfigChooser
             String name = names[i];
             if (_egl.eglGetConfigAttrib(_display, _config, attribute, value))
             {
-                Log.w(TAG, String.format("  %s: %d\n", name, value[0]));
+                Log.v(TAG, String.format("  %s: %d\n", name, value[0]));
             }
             else
             {

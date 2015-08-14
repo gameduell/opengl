@@ -30,6 +30,8 @@ extern class GLVertexArrayObject {}
 
 extern class GLExt
 {
+    public static function bindExtensions(): Void;
+
     ///============ GL EXTENSIONS API ==============
 
     public static function discardFramebufferEXT(target:Int, color:Int = 0, depth:Int = 0, stencil:Int = 0): Void;

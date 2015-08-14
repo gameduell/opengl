@@ -33,22 +33,35 @@ import types.Data;
 typedef GLVertexArrayObject = Int;
 
 @:buildXml('
+    <target id="haxe" tool="linker" toolid="${haxelink}" output="${HAXE_OUTPUT}${DBG}" >
+        <lib name="-lEGL" if="android" />
+    </target>
 
 	<files id="haxe">
-
 		<include name="${haxelib:duell_types}/backends/types_cpp/native.xml" />
-
 	</files>
-
 ')
+
 
 @:headerCode('
 	#include <types/NativeData.h>
 
 	#include <cstdlib>
 	#ifdef ANDROID
-	#include <GLES2/gl2.h>
+
+	#include <EGL/eglplatform.h>
+    #include <EGL/eglext.h>
+    #include <EGL/egl.h>
+
+    #include <GLES2/gl2platform.h>
 	#include <GLES2/gl2ext.h>
+
+	extern PFNGLDISCARDFRAMEBUFFEREXTPROC glDiscardFramebufferEXT;
+	extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOES;
+	extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOES;
+	extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOES;
+	extern PFNGLISVERTEXARRAYOESPROC glIsVertexArrayOES;
+
 	#endif
 
 	#ifdef IPHONE
@@ -68,14 +81,16 @@ namespace hx{
 	HX_CHAR *NewString(int inLen);
 }
 
-#ifdef HX_MACOS
+#ifdef ANDROID
 
+PFNGLDISCARDFRAMEBUFFEREXTPROC glDiscardFramebufferEXT;
+PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOES;
+PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOES;
+PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOES;
+PFNGLISVERTEXARRAYOESPROC glIsVertexArrayOES;
 
 #endif
 
-')
-
-@:headerClassCode('
 ')
 
 @:keep
@@ -83,6 +98,20 @@ namespace hx{
 class GLExt {
 
     public static var nullVertexArrayObject: GLVertexArrayObject = 0;
+
+    @:functionCode('
+        #ifdef ANDROID
+
+        glDiscardFramebufferEXT = (PFNGLDISCARDFRAMEBUFFEREXTPROC)eglGetProcAddress("glDiscardFramebufferEXT");
+
+        glBindVertexArrayOES = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
+        glDeleteVertexArraysOES = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
+        glGenVertexArraysOES = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
+        glIsVertexArrayOES = (PFNGLISVERTEXARRAYOESPROC)eglGetProcAddress("glIsVertexArrayOES");
+
+        #endif
+	')
+    public static function bindExtensions(): Void {}
 
     @:functionCode('
         GLenum discards[] = {0,0,0};

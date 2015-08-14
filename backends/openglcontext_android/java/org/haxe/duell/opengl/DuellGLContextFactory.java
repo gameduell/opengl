@@ -24,51 +24,42 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package gl;
+package org.haxe.duell.opengl;
 
-import js.html.webgl.ExtensionVertexArray;
-import gl.GLExtDefines;
+import android.annotation.TargetApi;
+import android.os.Build;
+import android.util.Log;
 
-import js.html.webgl.RenderingContext;
+import android.opengl.GLSurfaceView;
 
-typedef GLVertexArrayObject = js.html.webgl.VertexArray;
+import org.haxe.duell.DuellActivity;
 
-@:keep
-@:keepInit
-class GLExt
+import javax.microedition.khronos.egl.EGL10;
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.egl.EGLDisplay;
+import javax.microedition.khronos.egl.EGLContext;
+
+@TargetApi(Build.VERSION_CODES.CUPCAKE)
+final class DuellGLContextFactory implements GLSurfaceView.EGLContextFactory
 {
-    public static var nullVertexArrayObject: GLVertexArrayObject = null;
+    private static final String TAG = "DuellGLContextFactory";
 
-    public static var context : RenderingContext;
-    public static var vertexArrayExtension: ExtensionVertexArray;
+    private static final int EGL_CONTEXT_CLIENT_VERSION = 0x3098;
 
-    public static function bindExtensions(): Void
+    public EGLContext createContext(EGL10 egl, EGLDisplay display, EGLConfig eglConfig)
     {
-        vertexArrayExtension = context.getExtension(GLExtDefines.OES_vertex_array_object);
+        int[] attrib_list = {
+                EGL_CONTEXT_CLIENT_VERSION, 2,
+                EGL10.EGL_NONE
+        };
+
+        EGLContext context = egl.eglCreateContext(display, eglConfig, EGL10.EGL_NO_CONTEXT, attrib_list);
+
+        return context;
     }
 
-    public static function discardFramebufferEXT(target:Int, color:Int = 0, depth:Int = 0, stencil:Int = 0): Void
+    public void destroyContext(EGL10 egl, EGLDisplay display, EGLContext context)
     {
-        // Not supported by WebGL
-    }
-
-    public static function createVertexArrayOES(): GLVertexArrayObject
-    {
-        return vertexArrayExtension.createVertexArrayOES();
-    }
-
-    public static function deleteVertexArrayOES(arrayObject: GLVertexArrayObject): Void
-    {
-        vertexArrayExtension.deleteVertexArrayOES(arrayObject);
-    }
-
-    public static function bindVertexArrayOES(arrayObject: GLVertexArrayObject): Void
-    {
-        vertexArrayExtension.bindVertexArrayOES(arrayObject);
-    }
-
-    public static function isVertexArrayOES(arrayObject: GLVertexArrayObject): Bool
-    {
-        return vertexArrayExtension.isVertexArrayOES(arrayObject);
+        egl.eglDestroyContext(display, context);
     }
 }

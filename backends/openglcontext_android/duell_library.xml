@@ -13,6 +13,7 @@
     		<java-source name="DuellGLActivityExtension" path="java" />
     		<activity-extension name="org.haxe.duell.opengl.DuellGLActivityExtension" />
     		<uses name="glEsVersion" value="0x00020000" required="true" />
-    	</android>
+            <uses value="android.hardware.opengles.aep" required="true" />
+        </android>
 	</platform-config>
 </library>

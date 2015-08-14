@@ -111,6 +111,9 @@ class GLContext
     	mainContext = new GLContext(null);
         GL.context = webGLContext;
         GLExt.context = webGLContext;
+        mainContext.determinePlatformGraphicsCapabilities();
+        GLExt.bindExtensions();
+
         mainContext.nativeContext = webGLContext;
     	mainContext.contextWidth = canvas.width;
     	mainContext.contextHeight = canvas.height;
@@ -148,6 +151,17 @@ class GLContext
     }
 
     /// INSTANCE
+
+    // Is set on initialisation
+    public var vendor(default, null): Null<String>;
+    public var renderer(default, null): Null<String>;
+    public var version(default, null): Null<String>;
+    public var extensions(default, null): Null<String>;
+
+    // API Extensions
+    public var supportsDiscardFramebuffer(default, null): Bool = false;
+    public var supportsVertexArrayObjects(default, null): Bool = false;
+
     private var nativeContext : Dynamic;
 
     public var onContextRecreated : Signal0;
@@ -169,5 +183,35 @@ class GLContext
     public function destroy() : Void
     {
 
+    }
+
+    private function determinePlatformGraphicsCapabilities(): Void
+    {
+        vendor = GL.getParameter(GLDefines.VENDOR);
+        version = GL.getParameter(GLDefines.VERSION);
+        renderer = GL.getParameter(GLDefines.RENDERER);
+
+        extensions = Std.string(GL.getSupportedExtensions());
+
+        trace("##### Graphic Hardware Description #####");
+        vendor != null ? trace("Vendor: ", vendor) : trace("Vendor: null");
+        version != null ? trace("Version: ", version) : trace("Version: null");
+        renderer != null ? trace("Renderer: ", renderer) : trace("Renderer: null");
+        extensions != null ? trace("Extensions: ", extensions) : trace("Extensions: null");
+        trace("##### Enabled Extensions #####");
+
+        if (extensions.indexOf(GLExtDefines.EXT_discard_framebuffer) != -1)
+        {
+            this.supportsDiscardFramebuffer = true;
+            trace(GLExtDefines.EXT_discard_framebuffer);
+        }
+
+        if (extensions.indexOf(GLExtDefines.OES_vertex_array_object) != -1)
+        {
+            this.supportsVertexArrayObjects = true;
+            trace(GLExtDefines.OES_vertex_array_object);
+        }
+
+        trace("########################################");
     }
 }
