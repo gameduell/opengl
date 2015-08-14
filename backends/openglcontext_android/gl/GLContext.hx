@@ -149,8 +149,8 @@ class GLContext
 
         if (extensions.indexOf(GLExtDefines.EXT_discard_framebuffer) != -1)
         {
-            this.supportsDiscardFramebuffer = true;
-            trace(GLExtDefines.EXT_discard_framebuffer);
+            this.supportsDiscardFramebuffer = false;
+            //trace(GLExtDefines.EXT_discard_framebuffer);
         }
 
         if (extensions.indexOf(GLExtDefines.OES_vertex_array_object) != -1)

@@ -46,6 +46,12 @@ final class DuellGLContextFactory implements GLSurfaceView.EGLContextFactory
 
     private static final int EGL_CONTEXT_CLIENT_VERSION = 0x3098;
 
+//    private static final int EGL_SWAP_BEHAVIOR = 0x3093;
+//    private static final int EGL_BUFFER_DESTROYED =	0x3095;
+//
+//    private static final int EGL_DRAW		=	0x3059;
+//    private static final int EGL_READ		=	0x305A;
+
     public EGLContext createContext(EGL10 egl, EGLDisplay display, EGLConfig eglConfig)
     {
         int[] attrib_list = {
@@ -54,6 +60,9 @@ final class DuellGLContextFactory implements GLSurfaceView.EGLContextFactory
         };
 
         EGLContext context = egl.eglCreateContext(display, eglConfig, EGL10.EGL_NO_CONTEXT, attrib_list);
+
+        // TODO Update to EGL14?
+        //egl.eglSurfaceAttrib(display, egl.eglGetCurrentSurface(EGL_DRAW), EGL_SWAP_BEHAVIOR, EGL_BUFFER_DESTROYED);
 
         return context;
     }
