@@ -40,7 +40,7 @@ public final class DuellGLView extends GLSurfaceView
         super(context);
 
             // TODO make configurable via duell build plugin
-        setEGLConfigChooser(new DuellGLConfigChooser(Bitmap.Config.ARGB_8888, 0, 8, 0));
+        setEGLConfigChooser(new DuellGLConfigChooser(Bitmap.Config.ARGB_8888, 16, 8, 0));
 
         setEGLContextFactory(new DuellGLContextFactory());
 
