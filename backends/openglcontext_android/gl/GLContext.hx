@@ -149,7 +149,11 @@ class GLContext
 
         if (extensions.indexOf(GLExtDefines.EXT_discard_framebuffer) != -1)
         {
-            this.supportsDiscardFramebuffer = false;
+            // TODO This is currently not working on Android, probably because of a bad OpenGL Context config in the Android view.
+            // TODO Logcat produces this error: W/Adreno-ES20(13186): <core_glDiscardFramebufferEXT:4066>: GL_INVALID_ENUM
+            // TODO Refactor Android OpenGL View and Activity init
+            // TODO We also get this on init: E/libEGL  (13542): validate_display:255 error 3008 (EGL_BAD_DISPLAY)
+            //this.supportsDiscardFramebuffer = true;
             //trace(GLExtDefines.EXT_discard_framebuffer);
         }
 

@@ -9,6 +9,13 @@ Initialize the GLContext and call OpenGL methods.
 
 = Release Log =
 
+== v5.1.0 ==
+
+=== OpenGL ===
+
+- Added proguard support
+- Added support to use OpenGL extensions 
+- Added Vertex Array Objects and DiscardFramebuffer extensions
 
 == v5.0.0 ==
 
