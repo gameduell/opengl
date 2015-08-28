@@ -26,7 +26,7 @@
 
 #import "openglcontext_ios/GLViewController.h"
 #import "openglcontext_ios/GLView.h"
-
+#import "DUELLAppDelegate.h"
 
 @implementation GLViewController
 
@@ -48,11 +48,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    DUELLAppDelegate *appDelegate = (DUELLAppDelegate *)[[UIApplication sharedApplication] delegate];
 
     self.view.autoresizingMask =
     UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
     UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin |
     UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+
+    /// set root view for the input later
+    appDelegate.rootView = self.view;
 
     [self startAnimation];  // TODO This should be called from the outside
 }
