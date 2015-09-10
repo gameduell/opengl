@@ -1,4 +1,4 @@
-package opengl;
+package gl;
 import gl.GL;
 import gl.GL.GLBuffer;
 import gl.GL.GLFramebuffer;

@@ -14,7 +14,7 @@
 
     <platform-config>
         <documentation>
-            <documentation-folder library="opengl" path="documentation" />
+            <documentation-folder library="opengl" path="documentation" pack="gl"/>
         </documentation>
     </platform-config>
 
