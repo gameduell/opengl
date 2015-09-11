@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <library xmlns="duell">
 
-    <supported-duell-tool version="3.0.0+" />
+    <supported-duell-tool version="4.0.0+" />
 
     <duelllib name="types"  version="3.0.0+" />
     <haxelib name="msignal" version="1.2.2" />

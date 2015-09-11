@@ -9,23 +9,21 @@ Initialize the GLContext and call OpenGL methods.
 
 = Release Log =
 
-== v5.2.0 ==
+== v6.0.0 ==
 
-=== OpenGL ===
+- Updated dependencies
+
+== v5.2.0 ==
 
 - Now setting the main view on the DuellAppDelegate
 
 == v5.1.0 ==
-
-=== OpenGL ===
 
 - Added proguard support
 - Added support to use OpenGL extensions
 - Added Vertex Array Objects and DiscardFramebuffer extensions
 
 == v5.0.0 ==
-
-=== OpenGL ===
 
 - Added files for documentation generation.
 - Refactored opengl backend for HTML5, that it just creates data views on the served data, when it is actually needed.
