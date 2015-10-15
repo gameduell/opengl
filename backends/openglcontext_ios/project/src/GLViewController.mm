@@ -42,7 +42,10 @@
 - (void)loadView
 {
     self.view = [[GLView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
+    #if defined(IPHONE)
     self.view.multipleTouchEnabled = YES;
+    #endif
 }
 
 - (void)viewDidLoad

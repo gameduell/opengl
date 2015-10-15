@@ -64,7 +64,7 @@ typedef GLVertexArrayObject = Int;
 
 	#endif
 
-	#ifdef IPHONE
+	#if defined(IPHONE) || defined(APPLETV)
 	#include <OpenGLES/ES2/gl.h>
 	#include <OpenGLES/ES2/glext.h>
 	#endif
