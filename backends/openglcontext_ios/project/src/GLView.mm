@@ -67,16 +67,19 @@ static double GetTimeMS()
         // Get the layer
         CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
 
-        eaglLayer.opaque = TRUE;
-        eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
+        eaglLayer.opaque = YES;
 
+        NSMutableDictionary* layerConfigDict = [NSMutableDictionary dictionary];
+        [layerConfigDict setValue : [NSNumber numberWithBool : NO] forKey : kEAGLDrawablePropertyRetainedBacking];
+        [layerConfigDict setValue : kEAGLColorFormatRGBA8 forKey : kEAGLDrawablePropertyColorFormat];
+        eaglLayer.drawableProperties = layerConfigDict;
 		eaglLayer.contentsScale = [[UIScreen mainScreen] scale];  // Here we could add a multiplier to support custom pixel scaling. This may improve performance on older devices.
 
 		_context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
         if (!_context || ![EAGLContext setCurrentContext:_context])
 		{
+		    [self release];
             return nil;
         }
 

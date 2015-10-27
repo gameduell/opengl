@@ -46,6 +46,8 @@
     #if defined(IPHONE)
     self.view.multipleTouchEnabled = YES;
     #endif
+
+    self.view.clearsContextBeforeDrawing = NO;
 }
 
 - (void)viewDidLoad
