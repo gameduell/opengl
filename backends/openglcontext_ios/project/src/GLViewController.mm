@@ -43,6 +43,7 @@
 {
     self.view = [[GLView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.view.multipleTouchEnabled = YES;
+    self.view.clearsContextBeforeDrawing = NO;
 }
 
 - (void)viewDidLoad

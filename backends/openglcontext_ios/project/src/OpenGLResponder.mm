@@ -33,32 +33,42 @@
 
 @implementation OpenGLResponder
 
+static GLViewController* viewController;
+
 + (EAGLContext *)initializeMainContext
 {
     UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-     GLViewController* controller = [[GLViewController alloc] init];
-     window.rootViewController = controller;
+     viewController = [[GLViewController alloc] init];
+     window.rootViewController = viewController;
 
     [window makeKeyAndVisible];
 
-    return controller.context;
+    return viewController.context;
 }
 
 + (int)contextWidth
 {
-    return self.glViewcontroller.contextWidth;
+    if (viewController != nil)
+    {
+        return viewController.contextWidth;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 + (int)contextHeight
 {
-    return self.glViewcontroller.contextHeight;
-}
-
-+ (GLViewController *)glViewcontroller
-{
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    return (GLViewController*) window.rootViewController;
+    if (viewController != nil)
+    {
+        return viewController.contextHeight;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 @end
