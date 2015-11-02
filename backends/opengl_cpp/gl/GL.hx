@@ -40,7 +40,7 @@ typedef GLTexture = Int;
 
 @:buildXml('
 
-    <target id="haxe" tool="linker" toolid="${haxelink}" output="${HAXE_OUTPUT}${DBG}" >
+    <target id="haxe" tool="linker" toolid="${haxelink}"  >
         <lib name="-lEGL" if="android" />
         <lib name="-lGLESv2" if="android" />
     </target>
