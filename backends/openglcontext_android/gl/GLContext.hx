@@ -36,7 +36,7 @@ import gl.GL;
 
 @:buildXml('
 
-    <target id="haxe" tool="linker" toolid="${haxelink}" output="${HAXE_OUTPUT}${DBG}">
+    <target id="haxe" tool="linker" toolid="${haxelink}" >
         <lib name="-lGLESv2" />
     </target>
 
