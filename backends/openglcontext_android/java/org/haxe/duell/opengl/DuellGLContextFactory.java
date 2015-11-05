@@ -39,7 +39,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLContext;
 
-@TargetApi(Build.VERSION_CODES.CUPCAKE)
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 final class DuellGLContextFactory implements GLSurfaceView.EGLContextFactory
 {
     private static final String TAG = "DuellGLContextFactory";
