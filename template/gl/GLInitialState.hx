@@ -30,6 +30,7 @@ class GLInitialState
 {
 	public static var html5Width  = ::LIBRARY.OPENGL.HTML5_WIDTH::;
 	public static var html5Height  = ::LIBRARY.OPENGL.HTML5_HEIGHT::;
+	public static var iosShowSplashScreen = ::LIBRARY.OPENGL.IOS_SHOW_SPLASHSCREEN::;
 
 	public function new()
 	{

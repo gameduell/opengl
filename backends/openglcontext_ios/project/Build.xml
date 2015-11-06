@@ -6,6 +6,7 @@
 		<include name="${haxelib:duell_duellbuildios}/native/native.xml" />
 		<compilerflag value="-Iinclude"/>
 
+		<file name="src/DUELLDelegateOGL.mm" />
 		<file name="src/OpenGLResponder.mm"/>
 		<file name="src/ExternalInterface.mm"/>
         <file name="src/GLView.mm"/>
