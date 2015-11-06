@@ -33,7 +33,8 @@ typedef KeyValueArray = Array<{NAME : String, VALUE : String}>;
 
 typedef LibraryConfigurationData = {
 	HTML5_WIDTH : Int,
-	HTML5_HEIGHT : Int
+	HTML5_HEIGHT : Int,
+	IOS_SHOW_SPLASHSCREEN : Bool
 }
 
 class LibraryConfiguration
@@ -62,7 +63,8 @@ class LibraryConfiguration
 		_configuration =
 		{
 			HTML5_WIDTH : 1024,
-			HTML5_HEIGHT : 768
+			HTML5_HEIGHT : 768,
+			IOS_SHOW_SPLASHSCREEN : false
 		};
 	}
 }

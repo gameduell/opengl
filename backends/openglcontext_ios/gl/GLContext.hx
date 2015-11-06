@@ -44,6 +44,8 @@ class GLContext
 	static private var openglcontextios_initialize_main_context = Lib.load ("openglcontextios", "openglcontextios_initialize_main_context", 2);
 	static private var openglcontextios_get_main_context_width = Lib.load ("openglcontextios", "openglcontextios_get_main_context_width", 0);
     static private var openglcontextios_get_main_context_height = Lib.load ("openglcontextios", "openglcontextios_get_main_context_height", 0);
+    static private var openglcontextios_removeSplashScreen = Lib.load("openglcontextios", "openglcontextios_removeSplashScreen", 0);
+    static private var openglcontextios_get_splashScreenRemoved = Lib.load("openglcontextios", "openglcontextios_get_splashScreenRemoved", 0);
 
     public static function setupMainContext(finishedCallback : Void->Void) : Void
     {
@@ -63,6 +65,9 @@ class GLContext
     	mainContext.nativeContext = eaglContext;
     	mainContext.contextWidth = openglcontextios_get_main_context_width();
     	mainContext.contextHeight = openglcontextios_get_main_context_height();
+
+        if (!GLInitialState.iosShowSplashScreen)
+            mainContext.removeSplashScreen();
 
         finishedCallback();
     }
@@ -107,6 +112,17 @@ class GLContext
     public function destroy() : Void
     {
 
+    }
+
+    public function removeSplashScreen(): Void
+    {
+        if (!splashScreenRemoved())
+            openglcontextios_removeSplashScreen();
+    }
+
+    public function splashScreenRemoved(): Bool
+    {
+        return openglcontextios_get_splashScreenRemoved();
     }
 
     private function determinePlatformGraphicsCapabilities(): Void

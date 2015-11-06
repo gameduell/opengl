@@ -52,6 +52,8 @@ class LibraryXMLParser
 				case 'html5-window-size':
 					parseHTML5WindowSizeElement(element);
 
+				case 'ios-show-splashscreen':
+					parseIOSShowSplashScreenElement(element);
 			}
 		}
 	}
@@ -65,6 +67,14 @@ class LibraryXMLParser
 		if(element.has.height)
 		{
 		    LibraryConfiguration.getData().HTML5_HEIGHT = Std.parseInt(element.att.height);
+		}
+	}
+
+	private static function parseIOSShowSplashScreenElement(element : Fast)
+	{
+		if (element.has.value)
+		{
+			LibraryConfiguration.getData().IOS_SHOW_SPLASHSCREEN = if (element.att.value == "true") true else false;
 		}
 	}
 
