@@ -62,9 +62,9 @@ static value openglcontextios_initialize_main_context(value onMainRenderCallback
 }
 DEFINE_PRIM (openglcontextios_initialize_main_context, 2);
 
-static value openglcontextios_removeSplashScreen (float delay, float duration)
+static value openglcontextios_removeSplashScreen (value delay, value duration)
 {
-    [[DUELLDelegateOGL sharedDUELLDelegateOGL] removeSplashScreen:delay withFadeOutAnimation:duration];
+    [[DUELLDelegateOGL sharedDUELLDelegateOGL] removeSplashScreen:val_float(delay) withFadeOutAnimation:val_float(duration)];
 	return alloc_null();
 }
 DEFINE_PRIM (openglcontextios_removeSplashScreen, 2);
