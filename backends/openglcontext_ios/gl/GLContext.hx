@@ -44,7 +44,7 @@ class GLContext
 	static private var openglcontextios_initialize_main_context = Lib.load ("openglcontextios", "openglcontextios_initialize_main_context", 2);
 	static private var openglcontextios_get_main_context_width = Lib.load ("openglcontextios", "openglcontextios_get_main_context_width", 0);
     static private var openglcontextios_get_main_context_height = Lib.load ("openglcontextios", "openglcontextios_get_main_context_height", 0);
-    static private var openglcontextios_removeSplashScreen = Lib.load("openglcontextios", "openglcontextios_removeSplashScreen", 0);
+    static private var openglcontextios_removeSplashScreen = Lib.load("openglcontextios", "openglcontextios_removeSplashScreen", 2);
     static private var openglcontextios_get_splashScreenRemoved = Lib.load("openglcontextios", "openglcontextios_get_splashScreenRemoved", 0);
 
     public static function setupMainContext(finishedCallback : Void->Void) : Void
@@ -114,10 +114,10 @@ class GLContext
 
     }
 
-    public function removeSplashScreen(): Void
+    public function removeSplashScreen(delay: Float = 0.0, fadeOutDuration: Float = 0.0): Void
     {
         if (!splashScreenRemoved())
-            openglcontextios_removeSplashScreen();
+            openglcontextios_removeSplashScreen(delay, fadeOutDuration);
     }
 
     public function splashScreenRemoved(): Bool

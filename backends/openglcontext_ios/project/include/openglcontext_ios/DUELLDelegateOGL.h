@@ -5,7 +5,7 @@
 @interface DUELLDelegateOGL : NSObject
 
 + (DUELLDelegateOGL*)sharedDUELLDelegateOGL;
-- (void)removeSplashScreen;
+- (void)removeSplashScreen:(float)delay withFadeOutAnimation:(float)duration;
 - (BOOL)splashScreenRemoved;
 
 @end

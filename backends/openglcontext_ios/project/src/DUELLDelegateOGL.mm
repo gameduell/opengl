@@ -53,14 +53,14 @@
     DUELLAppDelegate *sharedDelegate = (DUELLAppDelegate*)[[UIApplication sharedApplication] delegate];
 
     self.splashView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, sharedDelegate.rootView.frame.size.width, sharedDelegate.rootView.frame.size.height)];
-    self.splashView.image = [UIImage imageNamed:[self getLaunchImageName]];
+    self.splashView.image = [UIImage imageNamed:[self launchImageName]];
     [sharedDelegate.rootView addSubview:self.splashView];
     [sharedDelegate.window bringSubviewToFront:self.splashView];
 
     return self;
 }
 
-- (void)removeSplashScreen
+- (void)removeSplashScreen:(float)delay withFadeOutAnimation:(float)duration
 {
     if ([self splashScreenRemoved])
     {
@@ -68,7 +68,7 @@
     }
 
     /// FadeOut animation optional
-    [UIView animateWithDuration:1.0 delay:0.0 options:0 animations:^{
+    [UIView animateWithDuration:duration delay:delay options:0 animations:^{
         self.splashView.alpha = 0.0f;
     } completion:^(BOOL finished) {
         [self.splashView removeFromSuperview];
@@ -82,7 +82,7 @@
     return self.splashView == NULL;
 }
 
-- (NSString *)getLaunchImageName
+- (NSString *)launchImageName
 {
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     NSString *LINameExtension = @"";
@@ -91,9 +91,20 @@
 
     if ([deviceModel rangeOfString:@"iPod"].location != NSNotFound || [deviceModel rangeOfString:@"iPhone"].location != NSNotFound)
     {
-        if ([[UIScreen mainScreen] bounds].size.width == 568 || [[UIScreen mainScreen] bounds].size.height == 568)
+        switch ((int)[[UIScreen mainScreen] bounds].size.height)
         {
-            LINameExtension = @"-568h";
+            case 568:
+                LINameExtension = @"-568h";
+                break;
+            case 667:
+                LINameExtension = @"-667h";
+                break;
+            case 736:
+                LINameExtension = @"-736h";
+                break;
+            default:
+                LINameExtension = @"";
+                break;
         }
     }
     else
@@ -108,13 +119,9 @@
         }
     }
 
-    if ([[UIScreen mainScreen] scale] == 1.0)
+    if ((int)[[UIScreen mainScreen] scale] != 1)
     {
-        LIScale = @"";
-    }
-    else
-    {
-        LIScale = @"@2x";
+        LIScale = [NSString stringWithFormat:@"@%dx", (int)[[UIScreen mainScreen] scale]];
     }
 
     NSString *combined = [NSString stringWithFormat:@"Default%@%@.png", LINameExtension, LIScale];
