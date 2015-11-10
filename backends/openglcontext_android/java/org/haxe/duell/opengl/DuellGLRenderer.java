@@ -43,9 +43,16 @@ class DuellGLRenderer implements GLSurfaceView.Renderer
 
     public void onDrawFrame(GL10 gl)
     {
+        // quicker check, optimizing for normal case scenario
         while (!queue.isEmpty())
         {
-            queue.remove().run();
+            // safe method, returns null if queue is empty
+            Runnable runObj = queue.pollFirst();
+
+            if (runObj != null)
+            {
+                runObj.run();
+            }
         }
 
         DuellGLNativeInterface.onRender();
@@ -64,7 +71,7 @@ class DuellGLRenderer implements GLSurfaceView.Renderer
                     @Override
                     public void queueRunnableOnMainHaxeThread(Runnable runObj)
                     {
-                        queue.add(runObj);
+                        queue.addLast(runObj);
                     }
                 }
         );
