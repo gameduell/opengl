@@ -41,6 +41,10 @@ extern class GLContext
     public var supportsDiscardFramebuffer(default, null): Bool = false;
     public var supportsVertexArrayObjects(default, null): Bool = false;
 
+    // Limitation (Are queried after context creation)
+    public var maxTextureSize(default, null): Int = 64; // From the spec
+    public var maxCubeTextureSize(default, null): Int = 16; // From the spec
+
 	public static var onRenderOnMainContext : Signal0;
 
     public var onContextRecreated : Signal0;
