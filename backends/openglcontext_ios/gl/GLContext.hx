@@ -44,6 +44,8 @@ class GLContext
 	static private var openglcontextios_initialize_main_context = Lib.load ("openglcontextios", "openglcontextios_initialize_main_context", 2);
 	static private var openglcontextios_get_main_context_width = Lib.load ("openglcontextios", "openglcontextios_get_main_context_width", 0);
     static private var openglcontextios_get_main_context_height = Lib.load ("openglcontextios", "openglcontextios_get_main_context_height", 0);
+    static private var openglcontextios_removeSplashScreen = Lib.load("openglcontextios", "openglcontextios_removeSplashScreen", 2);
+    static private var openglcontextios_get_splashScreenRemoved = Lib.load("openglcontextios", "openglcontextios_get_splashScreenRemoved", 0);
 
     public static function setupMainContext(finishedCallback : Void->Void) : Void
     {
@@ -63,6 +65,9 @@ class GLContext
     	mainContext.nativeContext = eaglContext;
     	mainContext.contextWidth = openglcontextios_get_main_context_width();
     	mainContext.contextHeight = openglcontextios_get_main_context_height();
+
+        if (!GLInitialState.iosShowSplashScreen)
+            mainContext.removeSplashScreen();
 
         finishedCallback();
     }
@@ -85,6 +90,10 @@ class GLContext
     // API Extensions
     public var supportsDiscardFramebuffer(default, null): Bool = false;
     public var supportsVertexArrayObjects(default, null): Bool = false;
+
+    // Limitation
+    public var maxTextureSize(default, null): Int = 64; // From the spec
+    public var maxCubeTextureSize(default, null): Int = 16; // From the spec
 
     private var nativeContext : Dynamic;
 
@@ -109,6 +118,17 @@ class GLContext
 
     }
 
+    public function removeSplashScreen(delay: Float = 0.0, fadeOutDuration: Float = 0.0): Void
+    {
+        if (!splashScreenRemoved())
+            openglcontextios_removeSplashScreen(delay, fadeOutDuration);
+    }
+
+    public function splashScreenRemoved(): Bool
+    {
+        return openglcontextios_get_splashScreenRemoved();
+    }
+
     private function determinePlatformGraphicsCapabilities(): Void
     {
         vendor = GL.getParameter(GLDefines.VENDOR);
@@ -123,6 +143,16 @@ class GLContext
         }
 
         extensions = extensionsString;
+
+        var queryMaxTextureSize: Null<Int> = GL.getParameter(GLDefines.MAX_TEXTURE_SIZE);
+        var queryMaxCubeTextureSize: Null<Int> = GL.getParameter(GLDefines.MAX_CUBE_MAP_TEXTURE_SIZE);
+
+        if (queryMaxTextureSize != null)
+            maxTextureSize = queryMaxTextureSize;
+
+        if (queryMaxCubeTextureSize != null)
+            maxCubeTextureSize = queryMaxCubeTextureSize;
+
 
         trace("##### Graphic Hardware Description #####");
         vendor != null ? trace("Vendor: ", vendor) : trace("Vendor: null");
@@ -142,6 +172,11 @@ class GLContext
             this.supportsVertexArrayObjects = true;
             trace(GLExtDefines.OES_vertex_array_object);
         }
+
+        trace("##### Limitations #####");
+
+        trace("MAX_TEXTURE_SIZE: " + maxTextureSize);
+        trace("MAX_CUBE_MAP_TEXTURE_SIZE: " + maxCubeTextureSize);
 
         trace("########################################");
     }

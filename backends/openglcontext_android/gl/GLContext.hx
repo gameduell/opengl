@@ -36,7 +36,7 @@ import gl.GL;
 
 @:buildXml('
 
-    <target id="haxe" tool="linker" toolid="${haxelink}" output="${HAXE_OUTPUT}${DBG}">
+    <target id="haxe" tool="linker" toolid="${haxelink}" >
         <lib name="-lGLESv2" />
     </target>
 
@@ -102,6 +102,10 @@ class GLContext
     public var supportsDiscardFramebuffer(default, null): Bool = false;
     public var supportsVertexArrayObjects(default, null): Bool = false;
 
+    // Limitation
+    public var maxTextureSize(default, null): Int = 64; // From the spec
+    public var maxCubeTextureSize(default, null): Int = 16; // From the spec
+
     private var javaView : Dynamic;
 
     public var onContextRecreated : Signal0;
@@ -140,6 +144,15 @@ class GLContext
 
         extensions = extensionsString;
 
+        var queryMaxTextureSize: Null<Int> = GL.getParameter(GLDefines.MAX_TEXTURE_SIZE);
+        var queryMaxCubeTextureSize: Null<Int> = GL.getParameter(GLDefines.MAX_CUBE_MAP_TEXTURE_SIZE);
+
+        if (queryMaxTextureSize != null)
+            maxTextureSize = queryMaxTextureSize;
+
+        if (queryMaxCubeTextureSize != null)
+            maxCubeTextureSize = queryMaxCubeTextureSize;
+
         trace("##### Graphic Hardware Description #####");
         vendor != null ? trace("Vendor: ", vendor) : trace("Vendor: null");
         version != null ? trace("Version: ", version) : trace("Version: null");
@@ -163,6 +176,11 @@ class GLContext
         //    this.supportsVertexArrayObjects = true;
         //    trace(GLExtDefines.OES_vertex_array_object);
         //}
+
+        trace("##### Limitations #####");
+
+        trace("MAX_TEXTURE_SIZE: " + maxTextureSize);
+        trace("MAX_CUBE_MAP_TEXTURE_SIZE: " + maxCubeTextureSize);
 
         trace("########################################");
     }

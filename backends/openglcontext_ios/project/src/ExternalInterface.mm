@@ -31,6 +31,7 @@
 #include <hx/CFFI.h>
 
 #import "openglcontext_ios/OpenGLResponder.h"
+#import "openglcontext_ios/DUELLDelegateOGL.h"
 
 DEFINE_KIND(k_Context)
 
@@ -60,6 +61,19 @@ static value openglcontextios_initialize_main_context(value onMainRenderCallback
 	return alloc_abstract(k_Context, context);
 }
 DEFINE_PRIM (openglcontextios_initialize_main_context, 2);
+
+static value openglcontextios_removeSplashScreen (value delay, value duration)
+{
+    [[DUELLDelegateOGL sharedDUELLDelegateOGL] removeSplashScreen:val_float(delay) withFadeOutAnimation:val_float(duration)];
+	return alloc_null();
+}
+DEFINE_PRIM (openglcontextios_removeSplashScreen, 2);
+
+static value openglcontextios_get_splashScreenRemoved()
+{
+    return alloc_bool([[DUELLDelegateOGL sharedDUELLDelegateOGL] splashScreenRemoved]);
+}
+DEFINE_PRIM(openglcontextios_get_splashScreenRemoved,0);
 
 static value openglcontextios_get_main_context_width()
 {

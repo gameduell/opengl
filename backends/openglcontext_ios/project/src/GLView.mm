@@ -30,12 +30,15 @@
 
 #import "openglcontext_ios/GLView.h"
 
+#import "DUELLAppDelegate.h"
+#import "DUELLDelegate.h"
+
 static double GetTimeMS()
 {
 	return (CACurrentMediaTime()*1000.0);
 }
 
-@interface GLView ()
+@interface GLView () <DUELLDelegate>
 {
     NSInteger _animationFrameInterval;
 	CADisplayLink *_displayLink;
@@ -48,6 +51,7 @@ static double GetTimeMS()
 
     double _renderTime;
     BOOL _zeroDeltaTime;
+    BOOL _inBackground;
 }
 
 @end
@@ -64,6 +68,9 @@ static double GetTimeMS()
 {
     if ((self = [super initWithFrame:frame]))
     {
+        DUELLAppDelegate *appDelegate = (DUELLAppDelegate*)[[UIApplication sharedApplication] delegate];
+        [appDelegate addDuellDelegate:self];
+
         // Get the layer
         CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
 
@@ -90,6 +97,7 @@ static double GetTimeMS()
 		_displayLink = nil;
 
         _zeroDeltaTime = TRUE;
+        _inBackground = FALSE;
     }
 
     return self;
@@ -108,9 +116,24 @@ static double GetTimeMS()
     glGenRenderbuffers(1, &_depthStencilRenderbuffer);
 }
 
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    _inBackground = TRUE;
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    _inBackground = FALSE;
+}
+
 extern void callHaxeMainRenderCallback();
 - (void)drawView:(id)sender
 {
+    if (_inBackground)
+    {
+        return;
+    }
+
     double currentTime = GetTimeMS();
     double deltaTime = _zeroDeltaTime ? 0.0 : currentTime - _renderTime;
     _renderTime = currentTime;
@@ -235,6 +258,9 @@ extern void callHaxeOnSizeChangedCallback();
 
 - (void)dealloc
 {
+    DUELLAppDelegate *appDelegate = (DUELLAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDelegate removeDuellDelegate:self];
+
     // tear down OpenGL
 	if (_defaultFramebuffer)
 	{

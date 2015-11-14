@@ -9,6 +9,10 @@ Initialize the GLContext and call OpenGL methods.
 
 = Release Log =
 
+== v6.1.0 ==
+
+- iOS now with splash screen feature to avoid clear color frames when starting the app.
+
 == v6.0.0 ==
 
 - Updated dependencies
