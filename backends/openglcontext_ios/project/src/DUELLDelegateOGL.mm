@@ -84,7 +84,9 @@
 
 - (NSString *)launchImageName
 {
+#if defined(IPHONE)
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+#endif
     NSString *LINameExtension = @"";
     NSString *LIScale = @"";
     NSString *deviceModel = [UIDevice currentDevice].model;
@@ -109,6 +111,7 @@
     }
     else
     {
+#if defined(IPHONE)
         if (UIInterfaceOrientationIsLandscape(interfaceOrientation))
         {
             LINameExtension = @"-Landscape";
@@ -117,6 +120,9 @@
         {
             LINameExtension = @"-Portrait";
         }
+#else
+        LINameExtension = @"-Landscape";
+#endif
     }
 
     if ((int)[[UIScreen mainScreen] scale] != 1)
