@@ -84,7 +84,10 @@
 
 - (NSString *)launchImageName
 {
+
+    #ifndef TARGET_OS_TV
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    #endif
     NSString *LINameExtension = @"";
     NSString *LIScale = @"";
     NSString *deviceModel = [UIDevice currentDevice].model;
@@ -109,6 +112,7 @@
     }
     else
     {
+        #ifndef TARGET_OS_TV
         if (UIInterfaceOrientationIsLandscape(interfaceOrientation))
         {
             LINameExtension = @"-Landscape";
@@ -117,6 +121,9 @@
         {
             LINameExtension = @"-Portrait";
         }
+        #else
+        LINameExtension = @"";
+        #endif
     }
 
     if ((int)[[UIScreen mainScreen] scale] != 1)

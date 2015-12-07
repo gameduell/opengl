@@ -9,6 +9,7 @@
             <framework name="UIKit.framework" />
 			<framework name="OpenGLES.framework" />
             <framework name="QuartzCore.framework" />
+            <framework name="GameKit.framework" />
 		</ios>
 
 	</platform-config>

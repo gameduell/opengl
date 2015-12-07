@@ -28,27 +28,42 @@
 #import "openglcontext_ios/GLView.h"
 #import "DUELLAppDelegate.h"
 
+static GLViewController *_sharedController = nil;
+
+
 @implementation GLViewController
 
 - (id)init
 {
+    NSLog(@"ye");
     self = [super init];
     if (self)
     {}
+
+    _sharedController = self;
 
     return self;
 }
 
 - (void)loadView
 {
+    NSLog(@"loadView");
+    [super loadView];
     self.view = [[GLView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.view.multipleTouchEnabled = YES;
-    self.view.clearsContextBeforeDrawing = NO;
+
+    NSLog(@"%@", self.view);
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [(GLView *)self.view setup];
+
+    #ifndef TARGET_OS_TV
+    self.view.multipleTouchEnabled = YES;
+    #endif
+    self.view.clearsContextBeforeDrawing = NO;
     DUELLAppDelegate *appDelegate = (DUELLAppDelegate *)[[UIApplication sharedApplication] delegate];
 
     self.view.autoresizingMask =
@@ -106,6 +121,11 @@
 - (int)contextHeight
 {
     return ((GLView *)self.view).contextHeight;
+}
+
++ (GLViewController*) sharedController
+{
+    return _sharedController;
 }
 
 - (void)dealloc

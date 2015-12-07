@@ -69,6 +69,11 @@ typedef GLVertexArrayObject = Int;
 	#include <OpenGLES/ES2/glext.h>
 	#endif
 
+	#ifdef APPLETV
+	#include <OpenGLES/ES2/gl.h>
+	#include <OpenGLES/ES2/glext.h>
+	#endif
+
 	#ifdef HX_MACOS
     #import <OpenGL/OpenGL.h>
     #import <OpenGL/gl.h>

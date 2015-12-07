@@ -184,5 +184,6 @@ class GLContext
         trace("MAX_VERTEX_UNIFORM_VECTORS: " + maxVertexUniformVectors);
 
         trace("########################################");
+
     }
 }

@@ -32,6 +32,7 @@
 
 #import "openglcontext_ios/OpenGLResponder.h"
 #import "openglcontext_ios/DUELLDelegateOGL.h"
+#import "openglcontext_ios/GLViewController.h"
 
 DEFINE_KIND(k_Context)
 

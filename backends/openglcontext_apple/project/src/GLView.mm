@@ -38,6 +38,69 @@ static double GetTimeMS()
 	return (CACurrentMediaTime()*1000.0);
 }
 
+
+@interface DUELLLGestureRecognizer : UIGestureRecognizer
+
+
+@end
+
+@implementation DUELLLGestureRecognizer
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"began touch");
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"moved touch");
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"ended touch");
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"touch cancelled");
+}
+
+- (void)pressesBegan:(NSSet<UIPress *> *)presses
+           withEvent:(UIPressesEvent *)event
+{
+    NSLog(@"began");
+}
+
+- (void)pressesChanged:(NSSet<UIPress *> *)presses
+             withEvent:(UIPressesEvent *)event
+{
+
+    NSLog(@"change");
+}
+
+- (void)pressesEnded:(NSSet<UIPress *> *)presses
+           withEvent:(UIPressesEvent *)event
+{
+
+    NSLog(@"change");
+}
+
+- (void)pressesCancelled:(NSSet<UIPress *> *)presses
+               withEvent:(UIPressesEvent *)event
+{
+
+    NSLog(@"cancelled");
+}
+
+
+- (void) dealloc
+{
+}
+
+@end
+
+
 @interface GLView () <DUELLDelegate>
 {
     NSInteger _animationFrameInterval;
@@ -52,6 +115,7 @@ static double GetTimeMS()
     double _renderTime;
     BOOL _zeroDeltaTime;
     BOOL _inBackground;
+	double _actualScreenWidth;
 }
 
 @end
@@ -64,12 +128,14 @@ static double GetTimeMS()
     return [CAEAGLLayer class];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)setup
 {
-    if ((self = [super initWithFrame:frame]))
-    {
         DUELLAppDelegate *appDelegate = (DUELLAppDelegate*)[[UIApplication sharedApplication] delegate];
         [appDelegate addDuellDelegate:self];
+
+
+    DUELLLGestureRecognizer *recognizer = [[DUELLLGestureRecognizer alloc] initWithTarget:nil action:nil];
+    [self addGestureRecognizer:recognizer];
 
         // Get the layer
         CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
@@ -98,9 +164,7 @@ static double GetTimeMS()
 
         _zeroDeltaTime = TRUE;
         _inBackground = FALSE;
-    }
 
-    return self;
 }
 
 - (void)setupGL
@@ -114,6 +178,33 @@ static double GetTimeMS()
 
     // Create a depth&stencil buffer as we want to enable DEPTH_TEST and STENCIL_TEST
     glGenRenderbuffers(1, &_depthStencilRenderbuffer);
+}
+
+- (void)pressesBegan:(NSSet<UIPress *> *)presses
+           withEvent:(UIPressesEvent *)event
+{
+    NSLog(@"began");
+}
+
+- (void)pressesChanged:(NSSet<UIPress *> *)presses
+             withEvent:(UIPressesEvent *)event
+{
+
+    NSLog(@"change");
+}
+
+- (void)pressesEnded:(NSSet<UIPress *> *)presses
+           withEvent:(UIPressesEvent *)event
+{
+
+    NSLog(@"change");
+}
+
+- (void)pressesCancelled:(NSSet<UIPress *> *)presses
+               withEvent:(UIPressesEvent *)event
+{
+
+    NSLog(@"cancelled");
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -144,7 +235,7 @@ extern void callHaxeMainRenderCallback();
     [EAGLContext setCurrentContext:_context];
 
     glBindFramebuffer(GL_FRAMEBUFFER, _defaultFramebuffer);
-    glViewport(0, 0, _contextWidth, _contextHeight);
+    glViewport((_actualScreenWidth - _contextWidth) * 0.5, 0, _contextWidth, _contextHeight);
 
     glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderbuffer);
 
@@ -166,9 +257,12 @@ extern void callHaxeOnSizeChangedCallback();
 	glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &_contextWidth);
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &_contextHeight);
 
+	_actualScreenWidth = _contextWidth;
+	_contextWidth *= 0.5;
+
     // Allocate storage for the depth buffer and stencil buffer, and attach it to the framebuffer’s depth attachment point
     glBindRenderbuffer(GL_RENDERBUFFER, _depthStencilRenderbuffer);
-    glRenderbufferStorage( GL_RENDERBUFFER, GL_DEPTH24_STENCIL8_OES, _contextWidth, _contextHeight );
+    glRenderbufferStorage( GL_RENDERBUFFER, GL_DEPTH24_STENCIL8_OES, _actualScreenWidth, _contextHeight );
     glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthStencilRenderbuffer );
     glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _depthStencilRenderbuffer );
 
