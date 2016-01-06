@@ -101,8 +101,17 @@ class GLContext
 
         // style can be used for postioning/styling the div or canvas.
         var style = dom.style;
-        // add the canvas to the body of the document
-        body.appendChild( dom );
+
+        var d;
+		if ((d = document.getElementById("duell-container")) != null)
+		{
+			d.appendChild( dom );
+		}
+		else
+		{
+        	// add the canvas to the body of the document
+        	body.appendChild( dom );
+		}
         // setup dimensions.
         canvas.width  = gl.GLInitialState.html5Width;
         canvas.height = gl.GLInitialState.html5Height;
