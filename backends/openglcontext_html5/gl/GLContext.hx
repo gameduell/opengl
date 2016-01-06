@@ -103,7 +103,7 @@ class GLContext
         var style = dom.style;
 
         var d;
-		if ((d = document.getElementById("duell-container")) != null)
+		if ((d = document.getElementById("appLayer")) != null)
 		{
 			d.appendChild( dom );
 		}
