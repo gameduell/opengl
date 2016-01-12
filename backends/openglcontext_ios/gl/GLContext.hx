@@ -66,7 +66,7 @@ class GLContext
     	mainContext.contextWidth = openglcontextios_get_main_context_width();
     	mainContext.contextHeight = openglcontextios_get_main_context_height();
 
-        if (!GLInitialState.iosShowSplashScreen)
+        if (!GLConfig.iosShowSplashScreen)
             mainContext.removeSplashScreen();
 
         finishedCallback();

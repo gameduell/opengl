@@ -52,6 +52,9 @@ class LibraryXMLParser
 				case 'html5-window-size':
 					parseHTML5WindowSizeElement(element);
 
+				case 'html5-container-id':
+					parseHTML5ContainerIDElement(element);
+
 				case 'ios-show-splashscreen':
 					parseIOSShowSplashScreenElement(element);
 			}
@@ -67,6 +70,14 @@ class LibraryXMLParser
 		if(element.has.height)
 		{
 		    LibraryConfiguration.getData().HTML5_HEIGHT = Std.parseInt(element.att.height);
+		}
+	}
+
+	private static function parseHTML5ContainerIDElement(element : Fast)
+	{
+		if (element.has.name)
+		{
+			LibraryConfiguration.getData().HTML5_CONTAINER_ID = element.att.name;
 		}
 	}
 

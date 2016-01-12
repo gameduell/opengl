@@ -38,7 +38,7 @@ import js.Browser.document;
 import js.html.*;
 import js.html.webgl.RenderingContext;
 import gl.GL;
-import gl.GLInitialState;
+import gl.GLConfig;
 import msignal.Signal;
 
 class GLContext
@@ -103,7 +103,7 @@ class GLContext
         var style = dom.style;
 
         var d;
-		if ((d = document.getElementById("appLayer")) != null)
+		if (GLConfig.html5ContainerID != null && (d = document.getElementById(GLConfig.html5ContainerID)) != null)
 		{
 			d.appendChild( dom );
 		}
@@ -113,8 +113,8 @@ class GLContext
         	body.appendChild( dom );
 		}
         // setup dimensions.
-        canvas.width  = gl.GLInitialState.html5Width;
-        canvas.height = gl.GLInitialState.html5Height;
+        canvas.width  = GLConfig.html5Width;
+        canvas.height = GLConfig.html5Height;
         canvas.id = "#duell-view";
 
     	mainContext = new GLContext(null);
