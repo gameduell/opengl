@@ -30,6 +30,7 @@ package gl;
 import js.html.webgl.WebGLDebugUtils;
 #end
 
+import html5_appdelegate.HTML5AppDelegate;
 import js.Browser;
 import js.html.webgl.ContextAttributes;
 import msignal.Signal;
@@ -116,6 +117,8 @@ class GLContext
         canvas.width  = GLConfig.html5Width;
         canvas.height = GLConfig.html5Height;
         canvas.id = "#duell-view";
+
+        HTML5AppDelegate.instance().rootView = canvas;
 
     	mainContext = new GLContext(null);
         GL.context = webGLContext;
