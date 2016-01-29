@@ -31,30 +31,16 @@ import android.opengl.GLSurfaceView;
 import android.os.Build;
 import org.haxe.duell.DuellActivity;
 import org.haxe.duell.MainHaxeThreadHandler;
+import org.haxe.duell.opengl.DuellGLView;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-import java.util.ArrayDeque;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-class DuellGLRenderer implements GLSurfaceView.Renderer
-{
-    private final ArrayDeque<Runnable> queue = new ArrayDeque<Runnable>();
+class DuellGLRenderer implements GLSurfaceView.Renderer {
 
     public void onDrawFrame(GL10 gl)
     {
-        // quicker check, optimizing for normal case scenario
-        while (!queue.isEmpty())
-        {
-            // safe method, returns null if queue is empty
-            Runnable runObj = queue.pollFirst();
-
-            if (runObj != null)
-            {
-                runObj.run();
-            }
-        }
-
         DuellGLNativeInterface.onRender();
     }
 
@@ -66,12 +52,23 @@ class DuellGLRenderer implements GLSurfaceView.Renderer
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
     {
         DuellActivity.getInstance().setMainHaxeThreadHandler(
-                new MainHaxeThreadHandler()
-                {
+                new MainHaxeThreadHandler() {
                     @Override
                     public void queueRunnableOnMainHaxeThread(Runnable runObj)
                     {
-                        queue.addLast(runObj);
+                        DuellActivity activity = DuellActivity.getInstance();
+                        if (activity == null)
+                            return;
+
+                        if (DuellActivity.getInstance().mainView == null)
+                            return;
+
+                        DuellGLView glview = (DuellGLView) DuellActivity.getInstance().mainView.get();
+
+                        if (glview == null)
+                            return;
+
+                        glview.queueEvent(runObj);
                     }
                 }
         );
