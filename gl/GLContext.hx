@@ -38,12 +38,12 @@ extern class GLContext
     public var extensions(default, null): Null<String>;
 
     // API Extensions
-    public var supportsDiscardFramebuffer(default, null): Bool = false;
-    public var supportsVertexArrayObjects(default, null): Bool = false;
+    public var supportsDiscardFramebuffer(default, null): Bool;
+    public var supportsVertexArrayObjects(default, null): Bool;
 
     // Limitation (Are queried after context creation)
-    public var maxTextureSize(default, null): Int = 64; // From the spec
-    public var maxCubeTextureSize(default, null): Int = 16; // From the spec
+    public var maxTextureSize(default, null): Int; // From the spec
+    public var maxCubeTextureSize(default, null): Int; // From the spec
 
 	public static var onRenderOnMainContext : Signal0;
 

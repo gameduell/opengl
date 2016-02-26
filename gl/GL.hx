@@ -31,13 +31,13 @@ import types.Data;
 import gl.GLActiveInfo;
 import gl.GLShaderPrecisionFormat;
 
-extern class GLShader {}
-extern class GLFramebuffer {}
-extern class GLRenderbuffer {}
-extern class GLBuffer {}
-extern class GLProgram {}
-extern class GLUniformLocation {}
-extern class GLTexture {}
+extern typedef GLShader = {}
+extern typedef GLFramebuffer = {}
+extern typedef GLRenderbuffer = {}
+extern typedef GLBuffer = {}
+extern typedef GLProgram = {}
+extern typedef GLUniformLocation = {}
+extern typedef GLTexture = {}
 
 extern class GL {
 
