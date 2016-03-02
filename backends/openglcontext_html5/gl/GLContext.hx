@@ -176,6 +176,7 @@ class GLContext
 
     // Limitation
     public var maxTextureSize(default, null): Int = 64; // From the spec
+    public var maxRenderbufferSize(default, null): Int = 1; // From the spec
     public var maxCubeTextureSize(default, null): Int = 16; // From the spec
     public var maxVertexUniformVectors(default, null): Int = 128; // From the spec
 
@@ -211,11 +212,15 @@ class GLContext
         extensions = Std.string(GL.getSupportedExtensions());
 
         var queryMaxTextureSize: Null<Int> = GL.getParameter(GLDefines.MAX_TEXTURE_SIZE);
+        var queryMaxRenderbufferSize: Null<Int> = GL.getParameter(GLDefines.MAX_RENDERBUFFER_SIZE);
         var queryMaxCubeTextureSize: Null<Int> = GL.getParameter(GLDefines.MAX_CUBE_MAP_TEXTURE_SIZE);
         var queryMaxVertexUniformVectors: Null<Int> = GL.getParameter(GLDefines.MAX_VERTEX_UNIFORM_VECTORS);
 
         if (queryMaxTextureSize != null)
             maxTextureSize = queryMaxTextureSize;
+
+        if (queryMaxRenderbufferSize != null)
+            maxRenderbufferSize = queryMaxRenderbufferSize;
 
         if (queryMaxCubeTextureSize != null)
             maxCubeTextureSize = queryMaxCubeTextureSize;
@@ -245,6 +250,7 @@ class GLContext
         trace("##### Limitations #####");
 
         trace("MAX_TEXTURE_SIZE: " + maxTextureSize);
+        trace("MAX_RENDERBUFFER_SIZE: " + maxRenderbufferSize);
         trace("MAX_CUBE_MAP_TEXTURE_SIZE: " + maxCubeTextureSize);
         trace("MAX_VERTEX_UNIFORM_VECTORS: " + maxVertexUniformVectors);
 
