@@ -538,14 +538,14 @@ class GL {
             case GL_GREEN_BITS:
             case GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS:
             case GL_MAX_CUBE_MAP_TEXTURE_SIZE:
-            //case GL_MAX_FRAGMENT_UNIFORM_VECTORS:
-            //case GL_MAX_RENDERBUFFER_SIZE:
+            case GL_MAX_FRAGMENT_UNIFORM_VECTORS:
+            case GL_MAX_RENDERBUFFER_SIZE:
             case GL_MAX_TEXTURE_IMAGE_UNITS:
             case GL_MAX_TEXTURE_SIZE:
-            //case GL_MAX_VARYING_VECTORS:
+            case GL_MAX_VARYING_VECTORS:
             case GL_MAX_VERTEX_ATTRIBS:
             case GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS:
-            //case GL_MAX_VERTEX_UNIFORM_VECTORS:
+            case GL_MAX_VERTEX_UNIFORM_VECTORS:
             case GL_NUM_COMPRESSED_TEXTURE_FORMATS:
             case GL_PACK_ALIGNMENT:
             case GL_RED_BITS:

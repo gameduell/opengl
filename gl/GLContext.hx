@@ -42,8 +42,10 @@ extern class GLContext
     public var supportsVertexArrayObjects(default, null): Bool;
 
     // Limitation (Are queried after context creation)
-    public var maxTextureSize(default, null): Int; // From the spec
-    public var maxCubeTextureSize(default, null): Int; // From the spec
+    public var maxTextureSize(default, null): Int;
+    public var maxRenderbufferSize(default, null): Int;
+    public var maxCubeTextureSize(default, null): Int;
+    public var maxVertexUniformVectors(default, null): Int;
 
 	public static var onRenderOnMainContext : Signal0;
 
