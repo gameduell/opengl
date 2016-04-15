@@ -10,6 +10,7 @@
         <xs:choice maxOccurs="unbounded">
             <xs:element name="html5-window-size" minOccurs="0" maxOccurs="1" type="d:WidthHeight"/>
             <xs:element name="html5-container-id" minOccurs="0" maxOccurs="1" type="d:Name"/>
+            <xs:element name="ios-show-splashscreen" minOccurs="0" maxOccurs="1" type="d:ValueBoolean"/>
         </xs:choice>
     </xs:complexType>
 
