@@ -45,6 +45,10 @@ class GLExt
     public static function bindExtensions(): Void
     {
         vertexArrayExtension = context.getExtension(GLExtDefines.OES_vertex_array_object);
+		if (context.getExtension(GLExtDefines.DEPTH_TEXTURE) == null)
+		{
+			trace('GL_DEPTH_TEXTURE not supported!');
+		}
     }
 
     public static function discardFramebufferEXT(target:Int, color:Int = 0, depth:Int = 0, stencil:Int = 0): Void
