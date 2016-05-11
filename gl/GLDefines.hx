@@ -219,6 +219,7 @@ class GLDefines {
     public static inline var INT                                     = 0x1404;
     public static inline var UNSIGNED_INT                        = 0x1405;
     public static inline var FLOAT                                = 0x1406;
+	public static inline var UNSIGNED_INT_24_8 					  = 0x84FA;
 
     /* PixelFormat */
     public static inline var DEPTH_COMPONENT                      = 0x1902;

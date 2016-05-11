@@ -39,8 +39,10 @@ class GLExtDefines
     #if html5
     public static inline var OES_vertex_array_object          = "OES_vertex_array_object";
     public static inline var VERTEX_ARRAY_BINDING_OES: Int = 34229;
+	public static inline var DEPTH_TEXTURE					  = "WEBGL_depth_texture";
     #else
     public static inline var OES_vertex_array_object          = "GL_OES_vertex_array_object";
     public static inline var VERTEX_ARRAY_BINDING_OES    = 0x85B5;
+	public static inline var DEPTH_TEXTURE					  = "GL_OES_packed_depth_stencil";
     #end
 }
