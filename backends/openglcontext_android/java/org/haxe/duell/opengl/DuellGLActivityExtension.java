@@ -29,6 +29,8 @@ package org.haxe.duell.opengl;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.opengl.GLSurfaceView;
+
 import org.haxe.duell.DuellActivity;
 import org.haxe.duell.Extension;
 
@@ -36,18 +38,44 @@ import java.lang.ref.WeakReference;
 
 public class DuellGLActivityExtension extends Extension
 {
+    private static DuellGLView view;
+
     public static DuellGLView initialize()
     {
-        DuellGLView view = new DuellGLView(DuellActivity.getInstance());
         if (DuellActivity.getInstance().mainView.get() != null)
         {
             throw new IllegalStateException("It seems another library has already taken over the task of being the main view. " +
                     "Cannot properly initialize opengl this way.");
         }
 
-        DuellActivity.getInstance().parent.addView(view);
-        DuellActivity.getInstance().mainView = new WeakReference<View>(view);
+        if (view == null)
+        {
+            view = new DuellGLView(DuellActivity.getInstance());
+
+            DuellActivity.getInstance().parent.addView(view);
+            DuellActivity.getInstance().mainView = new WeakReference<View>(view);
+        }
 
         return view;
+    }
+
+    @Override
+    public void onPause()
+    {
+        if (view != null)
+        {
+            // Pauses the rendering
+            view.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        }
+    }
+
+    @Override
+    public void onResume()
+    {
+        if (view != null)
+        {
+            // Resumes the rendering
+            view.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        }
     }
 }
