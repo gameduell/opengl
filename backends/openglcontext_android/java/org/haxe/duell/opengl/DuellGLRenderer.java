@@ -51,28 +51,6 @@ class DuellGLRenderer implements GLSurfaceView.Renderer {
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
     {
-        DuellActivity.getInstance().setMainHaxeThreadHandler(
-                new MainHaxeThreadHandler() {
-                    @Override
-                    public void queueRunnableOnMainHaxeThread(Runnable runObj)
-                    {
-                        DuellActivity activity = DuellActivity.getInstance();
-                        if (activity == null)
-                            return;
-
-                        if (DuellActivity.getInstance().mainView == null)
-                            return;
-
-                        DuellGLView glview = (DuellGLView) DuellActivity.getInstance().mainView.get();
-
-                        if (glview == null)
-                            return;
-
-                        glview.queueEvent(runObj);
-                    }
-                }
-        );
-
         DuellGLNativeInterface.onContextRecreated();
     }
 }
