@@ -181,11 +181,11 @@ class GLContext
         }
 
         /// TODO Currently bugged on some android devices, we disable for now.
-        //if (extensions.indexOf(GLExtDefines.OES_vertex_array_object) != -1)
-        //{
-        //    this.supportsVertexArrayObjects = true;
-        //    trace(GLExtDefines.OES_vertex_array_object);
-        //}
+        if (extensions.indexOf(GLExtDefines.OES_vertex_array_object) != -1)
+        {
+           this.supportsVertexArrayObjects = true;
+           trace(GLExtDefines.OES_vertex_array_object);
+        }
 
         trace("##### Limitations #####");
 
