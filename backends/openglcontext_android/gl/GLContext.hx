@@ -164,10 +164,10 @@ class GLContext
             maxVertexUniformVectors = queryMaxVertexUniformVectors;
 
         trace("##### Graphic Hardware Description #####");
-        vendor != null ? trace("Vendor: ", vendor) : trace("Vendor: null");
-        version != null ? trace("Version: ", version) : trace("Version: null");
-        renderer != null ? trace("Renderer: ", renderer) : trace("Renderer: null");
-        extensions != null ? trace("Extensions: ", extensions) : trace("Extensions: null");
+        vendor != null ? trace("Vendor: " + vendor) : trace("Vendor: null");
+        version != null ? trace("Version: " + version) : trace("Version: null");
+        renderer != null ? trace("Renderer: " + renderer) : trace("Renderer: null");
+        extensions != null ? trace("Extensions: " + extensions) : trace("Extensions: null");
         trace("##### Enabled Extensions #####");
 
         if (extensions.indexOf(GLExtDefines.EXT_discard_framebuffer) != -1)
@@ -179,12 +179,11 @@ class GLContext
             //this.supportsDiscardFramebuffer = true;
             //trace(GLExtDefines.EXT_discard_framebuffer);
         }
-
         /// TODO Currently bugged on some android devices, we disable for now.
         if (extensions.indexOf(GLExtDefines.OES_vertex_array_object) != -1)
         {
-           this.supportsVertexArrayObjects = true;
-           trace(GLExtDefines.OES_vertex_array_object);
+           //this.supportsVertexArrayObjects = true;
+           //trace(GLExtDefines.OES_vertex_array_object);
         }
 
         trace("##### Limitations #####");
