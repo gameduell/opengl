@@ -170,20 +170,24 @@ class GLContext
         extensions != null ? trace("Extensions: " + extensions) : trace("Extensions: null");
         trace("##### Enabled Extensions #####");
 
-        if (extensions.indexOf(GLExtDefines.EXT_discard_framebuffer) != -1)
+		var vendorIsQualcomm: Bool = vendor != null && vendor.indexOf("Qualcomm") == 0;
+		var problematicGPU: Bool = renderer != null && (
+			renderer.indexOf("Adreno (TM) 320") == 0 ||
+			renderer.indexOf("Adreno (TM) 225") == 0
+		);
+
+		var badBadAdreno: Bool = vendorIsQualcomm && problematicGPU;
+
+		if (extensions.indexOf(GLExtDefines.EXT_discard_framebuffer) != -1)
         {
-            // TODO This is currently not working on Android, probably because of a bad OpenGL Context config in the Android view.
-            // TODO Logcat produces this error: W/Adreno-ES20(13186): <core_glDiscardFramebufferEXT:4066>: GL_INVALID_ENUM
-            // TODO Refactor Android OpenGL View and Activity init
-            // TODO We also get this on init: E/libEGL  (13542): validate_display:255 error 3008 (EGL_BAD_DISPLAY)
-            //this.supportsDiscardFramebuffer = true;
-            //trace(GLExtDefines.EXT_discard_framebuffer);
+            this.supportsDiscardFramebuffer = true;
+            trace(GLExtDefines.EXT_discard_framebuffer);
         }
-        /// TODO Currently bugged on some android devices, we disable for now.
+
         if (extensions.indexOf(GLExtDefines.OES_vertex_array_object) != -1)
         {
-           //this.supportsVertexArrayObjects = true;
-           //trace(GLExtDefines.OES_vertex_array_object);
+           this.supportsVertexArrayObjects = true;
+           trace(GLExtDefines.OES_vertex_array_object);
         }
 
         trace("##### Limitations #####");
@@ -194,6 +198,15 @@ class GLContext
         trace("MAX_VERTEX_UNIFORM_VECTORS: " + maxVertexUniformVectors);
 
         trace("########################################");
+
+		trace('CANCER BAD ADRENO: $badBadAdreno');
+
+		if (badBadAdreno)
+		{
+			this.supportsVertexArrayObjects = false;
+			this.supportsDiscardFramebuffer = false;
+			maxVertexUniformVectors = 250;
+		}
     }
 
 }
