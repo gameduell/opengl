@@ -171,13 +171,17 @@ class GLContext
         trace("##### Enabled Extensions #####");
 
 		var vendorIsQualcomm: Bool = vendor != null && vendor.indexOf("Qualcomm") == 0;
-		var problematicGPU: Bool = renderer != null && (
+		var problematicAdreno: Bool = renderer != null && (
 			renderer.indexOf("Adreno (TM) 320") == 0 ||
 			renderer.indexOf("Adreno (TM) 305") == 0 ||
 			renderer.indexOf("Adreno (TM) 225") == 0
 		);
 
-		var badBadAdreno: Bool = vendorIsQualcomm && problematicGPU;
+        var problematicMali: Bool = renderer != null && (
+            renderer.indexOf("Mali-T880") == 0
+        );
+
+		var problematicGpu: Bool = problematicMali || (vendorIsQualcomm && problematicAdreno);
 
 		if (extensions.indexOf(GLExtDefines.EXT_discard_framebuffer) != -1)
         {
@@ -200,9 +204,9 @@ class GLContext
 
         trace("########################################");
 
-		trace('CANCER BAD ADRENO: $badBadAdreno');
+		trace('CANCER BAD GPU: $problematicGpu');
 
-		if (badBadAdreno)
+		if (problematicGpu)
 		{
 			this.supportsVertexArrayObjects = false;
 			this.supportsDiscardFramebuffer = false;
