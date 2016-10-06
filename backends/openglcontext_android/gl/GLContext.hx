@@ -173,6 +173,7 @@ class GLContext
 		var vendorIsQualcomm: Bool = vendor != null && vendor.indexOf("Qualcomm") == 0;
 		var problematicGPU: Bool = renderer != null && (
 			renderer.indexOf("Adreno (TM) 320") == 0 ||
+			renderer.indexOf("Adreno (TM) 305") == 0 ||
 			renderer.indexOf("Adreno (TM) 225") == 0
 		);
 
