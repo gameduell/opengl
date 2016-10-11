@@ -174,7 +174,8 @@ class GLContext
 		var problematicAdreno: Bool = renderer != null && (
 			renderer.indexOf("Adreno (TM) 320") == 0 ||
 			renderer.indexOf("Adreno (TM) 305") == 0 ||
-			renderer.indexOf("Adreno (TM) 225") == 0
+			renderer.indexOf("Adreno (TM) 225") == 0 ||
+            renderer.indexOf("Adreno (TM) 530") == 0 // ex: HTC 10
 		);
 
         var problematicMali: Bool = renderer != null && (
