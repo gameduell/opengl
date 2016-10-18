@@ -170,30 +170,18 @@ class GLContext
         extensions != null ? trace("Extensions: " + extensions) : trace("Extensions: null");
         trace("##### Enabled Extensions #####");
 
-		var vendorIsQualcomm: Bool = vendor != null && vendor.indexOf("Qualcomm") == 0;
-		var problematicAdreno: Bool = renderer != null && (
-			renderer.indexOf("Adreno (TM) 320") == 0 ||
-			renderer.indexOf("Adreno (TM) 305") == 0 ||
-			renderer.indexOf("Adreno (TM) 225") == 0 ||
-            renderer.indexOf("Adreno (TM) 530") == 0 // ex: HTC 10
-		);
-
-        var problematicMali: Bool = renderer != null && (
-            renderer.indexOf("Mali-T880") == 0
-        );
-
-		var problematicGpu: Bool = problematicMali || (vendorIsQualcomm && problematicAdreno);
-
 		if (extensions.indexOf(GLExtDefines.EXT_discard_framebuffer) != -1)
         {
-            this.supportsDiscardFramebuffer = true;
-            trace(GLExtDefines.EXT_discard_framebuffer);
+            //random androids fail with this, it's unfortunately not viable to enable it.
+            //this.supportsDiscardFramebuffer = true;
+            //trace(GLExtDefines.EXT_discard_framebuffer);
         }
 
         if (extensions.indexOf(GLExtDefines.OES_vertex_array_object) != -1)
         {
-           this.supportsVertexArrayObjects = true;
-           trace(GLExtDefines.OES_vertex_array_object);
+            //random androids fail with this, it's unfortunately not viable to enable it.
+            //this.supportsVertexArrayObjects = true;
+            //trace(GLExtDefines.OES_vertex_array_object);
         }
 
         trace("##### Limitations #####");
@@ -205,14 +193,12 @@ class GLContext
 
         trace("########################################");
 
-		trace('CANCER BAD GPU: $problematicGpu');
-
-		if (problematicGpu)
-		{
-			this.supportsVertexArrayObjects = false;
-			this.supportsDiscardFramebuffer = false;
-			maxVertexUniformVectors = 250;
-		}
+        /// Some devices report 256 uniforms but then fail with > 251 . 250 seems to be the sweet spot.
+        /// Couldn't find any device that didnt work with it.
+        if (maxVertexUniformVectors > 250)
+        {
+            maxVertexUniformVectors = 250;
+        }
     }
 
 }
