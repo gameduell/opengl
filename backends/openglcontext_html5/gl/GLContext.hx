@@ -237,14 +237,16 @@ class GLContext
 
         if (extensions.indexOf(GLExtDefines.EXT_discard_framebuffer) != -1)
         {
-            this.supportsDiscardFramebuffer = true;
-            trace(GLExtDefines.EXT_discard_framebuffer);
+            // TODO whitelist browser/version
+            //this.supportsDiscardFramebuffer = true;
+            trace(GLExtDefines.EXT_discard_framebuffer, "supported but not used intentionally.");
         }
 
         if (extensions.indexOf(GLExtDefines.OES_vertex_array_object) != -1)
         {
-            this.supportsVertexArrayObjects = true;
-            trace(GLExtDefines.OES_vertex_array_object);
+            // TODO whitelist browser/version
+            //this.supportsVertexArrayObjects = true;
+            trace(GLExtDefines.OES_vertex_array_object, "supported but not used intentionally.");
         }
 
         trace("##### Limitations #####");
