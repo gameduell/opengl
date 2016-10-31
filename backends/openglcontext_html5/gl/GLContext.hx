@@ -116,9 +116,13 @@ class GLContext
         // setup dimensions.
         canvas.width  = GLConfig.html5Width;
         canvas.height = GLConfig.html5Height;
+        canvas.style.width = '${GLConfig.html5Width}px';
+        canvas.style.height = '${GLConfig.html5Height}px';
         canvas.id = "#duell-view";
 
         HTML5AppDelegate.instance().rootView = canvas;
+
+        HTML5AppDelegate.instance().onZoom.add(onHTMLZoom);
 
     	mainContext = new GLContext(null);
         GL.context = webGLContext;
@@ -134,6 +138,22 @@ class GLContext
         requestId = Browser.window.requestAnimationFrame(_onRequestAnimationFrame);
 
         finishedCallback();
+    }
+
+    /**
+        Updates canvas and viewport size if the parent HTML iz zoomed.
+    **/
+    private static function onHTMLZoom(zoom: Float): Void
+    {
+        if (zoom < 1.0) zoom = 1.0;
+
+        var width = Math.round(GLConfig.html5Width * zoom);
+        var height = Math.round(GLConfig.html5Height * zoom);
+
+        canvas.width = width;
+        canvas.height = height;
+
+        GL.viewport(0,0, width, height);
     }
 
     @:noCompletion static function _onRequestAnimationFrame(time: Float): Void
