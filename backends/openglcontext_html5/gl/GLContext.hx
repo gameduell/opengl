@@ -85,7 +85,7 @@ class GLContext
             "webglcontextrestored", handleContextRestored, false);
 
         // grab the CanvasRenderingContext2D for drawing on
-        var  webGLContext : RenderingContext = canvas.getContextWebGL({alpha:false, antialias:true, depth:true, premultipliedAlpha:false, preserveDrawingBuffer:false, stencil:true});
+        var  webGLContext : RenderingContext = canvas.getContextWebGL({alpha:false, antialias:false, depth:true, premultipliedAlpha:false, preserveDrawingBuffer:false, stencil:true});
 
 #if webgldebug
         WebGLDebugUtils.init(webGLContext);
@@ -114,30 +114,40 @@ class GLContext
         	body.appendChild( dom );
 		}
         // setup dimensions.
-        canvas.width  = GLConfig.html5Width;
-        canvas.height = GLConfig.html5Height;
-        canvas.style.width = '${GLConfig.html5Width}px';
-        canvas.style.height = '${GLConfig.html5Height}px';
-        canvas.id = "#duell-view";
 
-        HTML5AppDelegate.instance().rootView = canvas;
 
-        HTML5AppDelegate.instance().onZoom.add(onHTMLZoom);
+        HTML5AppDelegate.instance().onReady.add(function()
+        {
+            var zoom: Float = HTML5AppDelegate.instance().zoomLevel;
+            if (zoom < 1.0) zoom = 1.0;
 
-    	mainContext = new GLContext(null);
-        GL.context = webGLContext;
-        GLExt.context = webGLContext;
-        mainContext.determinePlatformGraphicsCapabilities();
-        GLExt.bindExtensions();
+            canvas.width  = Math.round(GLConfig.html5Width * zoom);
+            canvas.height = Math.round(GLConfig.html5Height * zoom);
+            canvas.style.width = '${GLConfig.html5Width}px';
+            canvas.style.height = '${GLConfig.html5Height}px';
+            canvas.id = "#duell-view";
 
-        mainContext.nativeContext = webGLContext;
-    	mainContext.contextWidth = canvas.width;
-    	mainContext.contextHeight = canvas.height;
-        GL.viewport(0,0,canvas.width, canvas.height);
+            HTML5AppDelegate.instance().rootView = canvas;
 
-        requestId = Browser.window.requestAnimationFrame(_onRequestAnimationFrame);
+            HTML5AppDelegate.instance().onZoom.add(onHTMLZoom);
 
-        finishedCallback();
+            mainContext = new GLContext(null);
+            GL.context = webGLContext;
+            GLExt.context = webGLContext;
+            mainContext.determinePlatformGraphicsCapabilities();
+            GLExt.bindExtensions();
+
+            trace(webGLContext.drawingBufferWidth, webGLContext.drawingBufferHeight);
+
+            mainContext.nativeContext = webGLContext;
+            mainContext.contextWidth = canvas.width;
+            mainContext.contextHeight = canvas.height;
+            GL.viewport(0,0,mainContext.contextWidth, mainContext.contextHeight);
+
+            requestId = Browser.window.requestAnimationFrame(_onRequestAnimationFrame);
+
+            finishedCallback();
+        });
     }
 
     /**
@@ -153,7 +163,7 @@ class GLContext
         canvas.width = width;
         canvas.height = height;
 
-        GL.viewport(0,0, width, height);
+        mainContextSizeChangedCallback();
     }
 
     @:noCompletion static function _onRequestAnimationFrame(time: Float): Void
